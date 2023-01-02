@@ -13,7 +13,7 @@ public interface IService<ENTITY, IDTO, ODTO> {
 
     List<ENTITY> get();
 
-    ENTITY update(UUID id, LocalDateTime dtUpdate, IDTO item);
+    ENTITY update(UUID id, Long dtUpdate, IDTO item);
 
 
 }

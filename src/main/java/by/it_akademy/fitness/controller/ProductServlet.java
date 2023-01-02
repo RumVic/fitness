@@ -8,14 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+
 import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/product")//http://localhost:8080/product
 public class ProductServlet {
 
     private final IProductService service;
@@ -24,13 +22,13 @@ public class ProductServlet {
         this.service = productService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping("/id")////http://localhost:8080/product/id + id param
     protected ResponseEntity<Product> getById (@RequestParam(name = "id") UUID id){
         return ResponseEntity.ok(service.read(id));
     }
 
 
-    @RequestMapping
+    @GetMapping("")
     protected ResponseEntity<List<? extends Product>> getList(){
         return ResponseEntity.ok(service.get());
     }
@@ -42,15 +40,16 @@ public class ProductServlet {
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
-
-    @PutMapping("/{id}/dt_update/{dt_update}")
-    protected ResponseEntity<Product> doPut(@PathVariable UUID id,
-                                            @PathVariable("dt_update") long dtUpdateRaw,
+    @PutMapping
+    protected ResponseEntity<Product> doPut(@RequestParam UUID id,
+                                            @RequestParam(name = "dt_update") Long dt_update,
                                             @RequestBody InputDTO idto){
-        LocalDateTime dtUpdate = LocalDateTime.ofInstant(
+        
+        /*LocalDateTime dtUpdate = LocalDateTime.ofInstant(
                 Instant.ofEpochMilli(dtUpdateRaw),
                 ZoneId.of("UTC")
-        );
-        return ResponseEntity.ok(this.service.update(id, dtUpdate, idto));
+        );*/
+
+        return ResponseEntity.ok(this.service.update(id, dt_update, idto));
     }
 }

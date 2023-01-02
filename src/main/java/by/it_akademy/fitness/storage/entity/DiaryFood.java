@@ -1,7 +1,6 @@
 package by.it_akademy.fitness.storage.entity;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -10,11 +9,11 @@ public class DiaryFood {
     @Id
     private UUID id;
     @Column(name = "dt_create")
-    private LocalDateTime dtCreate;
+    private Long dtCreate;
     @Column(name = "dt_update")
-    private LocalDateTime dtUpdate;
+    private Long dtUpdate;
     @Column(name = "dt_supply")
-    private LocalDateTime dtSupply;
+    private Long dtSupply;
 
     @OneToOne
     @JoinColumn
@@ -40,27 +39,27 @@ public class DiaryFood {
         this.id = id;
     }
 
-    public LocalDateTime getDtCreate() {
+    public Long getDtCreate() {
         return dtCreate;
     }
 
-    public void setDtCreate(LocalDateTime dtCreate) {
+    public void setDtCreate(Long dtCreate) {
         this.dtCreate = dtCreate;
     }
 
-    public LocalDateTime getDtUpdate() {
+    public Long getDtUpdate() {
         return dtUpdate;
     }
 
-    public void setDtUpdate(LocalDateTime dtUpdate) {
+    public void setDtUpdate(Long dtUpdate) {
         this.dtUpdate = dtUpdate;
     }
 
-    public LocalDateTime getDtSupply() {
+    public Long getDtSupply() {
         return dtSupply;
     }
 
-    public void setDtSupply(LocalDateTime dtSupply) {
+    public void setDtSupply(Long dtSupply) {
         this.dtSupply = dtSupply;
     }
 

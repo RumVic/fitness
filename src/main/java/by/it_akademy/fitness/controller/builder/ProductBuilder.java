@@ -1,17 +1,15 @@
 package by.it_akademy.fitness.controller.builder;
 
 import by.it_akademy.fitness.storage.entity.Product;
-
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class ProductBuilder {
 
     private UUID id;
     
-    private LocalDateTime dtCreate;
+    private Long dtCreate;
     
-    private LocalDateTime dtUpdate;
+    private Long dtUpdate;
 
     private String title;
 
@@ -39,12 +37,12 @@ public class ProductBuilder {
         return this;
     }
 
-    public ProductBuilder setDtCreate(LocalDateTime dtCreate) {
+    public ProductBuilder setDtCreate(Long dtCreate) {
         this.dtCreate = dtCreate;
         return this;
     }
 
-    public ProductBuilder setDtUpdate(LocalDateTime dtUpdate) {
+    public ProductBuilder setDtUpdate(Long dtUpdate) {
         this.dtUpdate = dtUpdate;
         return this;
     }

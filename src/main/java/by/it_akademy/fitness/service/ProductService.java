@@ -8,7 +8,7 @@ import by.it_akademy.fitness.storage.entity.Product;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.time.Clock;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,8 +28,8 @@ public class ProductService implements IProductService {
         return storage.save(ProductBuilder
                 .create()
                 .setId(UUID.randomUUID())
-                .setDtCreate(LocalDateTime.now())
-                .setDtUpdate(LocalDateTime.now())
+                .setDtCreate(Clock.systemUTC().millis())
+                .setDtUpdate(Clock.systemUTC().millis())
                 .setTitle(idto.getTitle())
                 .setWeight(idto.getWeight())
                 .setCalories(idto.getCalories())
@@ -45,12 +45,36 @@ public class ProductService implements IProductService {
 
     @Override
     public List<Product> get() {
-        return null;
+        return storage.findAll();
     }
 
     @Override
-    public Product update(UUID id, LocalDateTime dtUpdate, InputDTO item) {
-        return null;
-    }
+    @Transactional
+    public Product update(UUID id, Long dtUpdate, InputDTO idto) {
 
+    Product readed = storage.findById(id).orElseThrow();
+
+        if (readed == null) {
+            throw new IllegalArgumentException("Меню не найдено");
+        }
+
+
+        if (!readed.getDtUpdate().equals(dtUpdate)) {
+            throw new IllegalArgumentException("К сожалению меню уже было отредактировано кем-то другим");
+        }
+
+        Product productUpdate = ProductBuilder
+                .create()
+                .setId(readed.getId())
+                .setDtCreate(readed.getDtCreate())
+                .setDtUpdate(Clock.systemUTC().millis())
+                .setTitle(idto.getTitle())
+                .setWeight(idto.getWeight())
+                .setCalories(idto.getCalories())
+                .setProteins(idto.getProteins())
+                .setFats(idto.getFats())
+                .setCarbohydrates(idto.getCarbohydrates())
+                .build();
+        return storage.save(productUpdate);
+    }
 }
