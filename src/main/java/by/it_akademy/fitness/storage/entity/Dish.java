@@ -16,12 +16,24 @@ public class Dish {
     private Long dtUpdate;
 
     private String title;
-    @Column(name = "composition_dish")
-    private Long compositionDish;
-    @OneToMany
-    private List<CompositionDish> compositionDishList;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private CompositionDish compositionDishList;
 
     public Dish() {
+    }
+
+    public Dish(
+            UUID id,
+            Long dtCreate,
+            Long dtUpdate,
+            String title,
+            CompositionDish compositionDishList) {
+        this.id = id;
+        this.dtCreate = dtCreate;
+        this.dtUpdate = dtUpdate;
+        this.title = title;
+        this.compositionDishList = compositionDishList;
     }
 
     public UUID getId() {
@@ -56,19 +68,11 @@ public class Dish {
         this.title = title;
     }
 
-    public Long getCompositionDish() {
-        return compositionDish;
-    }
-
-    public void setCompositionDish(Long compositionDish) {
-        this.compositionDish = compositionDish;
-    }
-
-    public List<CompositionDish> getCompositionDishList() {
+    public CompositionDish getCompositionDishList() {
         return compositionDishList;
     }
 
-    public void setCompositionDishList(List<CompositionDish> compositionDishList) {
+    public void setCompositionDishList(CompositionDish compositionDishList) {
         this.compositionDishList = compositionDishList;
     }
 
@@ -81,7 +85,6 @@ public class Dish {
                 && getDtCreate().equals(dish.getDtCreate())
                 && getDtUpdate().equals(dish.getDtUpdate())
                 && getTitle().equals(dish.getTitle())
-                && getCompositionDish().equals(dish.getCompositionDish())
                 && getCompositionDishList().equals(dish.getCompositionDishList());
     }
 
@@ -91,7 +94,6 @@ public class Dish {
                 getDtCreate(),
                 getDtUpdate(),
                 getTitle(),
-                getCompositionDish(),
                 getCompositionDishList());
     }
 }

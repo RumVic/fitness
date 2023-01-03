@@ -15,13 +15,32 @@ public class CompositionDish {
 
     private String title;
 
-    private Long dish; // reference to dish
-    @ManyToMany
+    private UUID dish; // reference to dish
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(insertable = false, updatable = false)
     private List<Product> productList;
 
     private double weight;
 
     public CompositionDish() {
+    }
+
+    public CompositionDish(
+            UUID id,
+            Long dtCreate,
+            Long dtUpdate,
+            String title,
+            UUID dish,
+            List<Product> productList,
+            double weight) {
+        this.id = id;
+        this.dtCreate = dtCreate;
+        this.dtUpdate = dtUpdate;
+        this.title = title;
+        this.dish = dish;
+        this.productList = productList;
+        this.weight = weight;
     }
 
     public UUID getId() {
@@ -56,11 +75,11 @@ public class CompositionDish {
         this.title = title;
     }
 
-    public Long getDish() {
+    public UUID getDish() {
         return dish;
     }
 
-    public void setDish(Long dish) {
+    public void setDish(UUID dish) {
         this.dish = dish;
     }
 

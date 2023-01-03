@@ -1,7 +1,7 @@
 package by.it_akademy.fitness.controller;
 
 
-import by.it_akademy.fitness.IDTO.InputDTO;
+import by.it_akademy.fitness.IDTO.InputDTOProduct;
 import by.it_akademy.fitness.service.api.IProductService;
 import by.it_akademy.fitness.storage.entity.Product;
 import org.springframework.http.HttpStatus;
@@ -35,7 +35,7 @@ public class ProductServlet {
 
 
     @PostMapping
-    protected ResponseEntity<Product> post(@RequestBody InputDTO idto) {
+    protected ResponseEntity<Product> post(@RequestBody InputDTOProduct idto) {
         Product created = this.service.create(idto);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
@@ -43,8 +43,8 @@ public class ProductServlet {
     @PutMapping
     protected ResponseEntity<Product> doPut(@RequestParam UUID id,
                                             @RequestParam(name = "dt_update") Long dt_update,
-                                            @RequestBody InputDTO idto){
-        
+                                            @RequestBody InputDTOProduct idto){
+
         /*LocalDateTime dtUpdate = LocalDateTime.ofInstant(
                 Instant.ofEpochMilli(dtUpdateRaw),
                 ZoneId.of("UTC")

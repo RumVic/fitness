@@ -1,4 +1,4 @@
-package by.it_akademy.fitness.controller.builder;
+package by.it_akademy.fitness.builder;
 
 import by.it_akademy.fitness.storage.entity.Product;
 import java.util.UUID;
