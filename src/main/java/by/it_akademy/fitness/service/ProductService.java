@@ -1,6 +1,6 @@
 package by.it_akademy.fitness.service;
 
-import by.it_akademy.fitness.IDTO.InputDTOProduct;
+import by.it_akademy.fitness.IDTO.InputProductDTO;
 import by.it_akademy.fitness.builder.ProductBuilder;
 import by.it_akademy.fitness.service.api.IProductService;
 import by.it_akademy.fitness.storage.api.IProductStorage;
@@ -24,7 +24,7 @@ public class ProductService implements IProductService {
 
     @Override
     @Transactional
-    public Product create(InputDTOProduct idto) {
+    public Product create(InputProductDTO idto) {
         return storage.save(ProductBuilder
                 .create()
                 .setId(UUID.randomUUID())
@@ -50,7 +50,7 @@ public class ProductService implements IProductService {
 
     @Override
     @Transactional
-    public Product update(UUID id, Long dtUpdate, InputDTOProduct idto) {
+    public Product update(UUID id, Long dtUpdate, InputProductDTO idto) {
 
     Product readed = storage.findById(id).orElseThrow();
 
@@ -76,5 +76,10 @@ public class ProductService implements IProductService {
                 .setCarbohydrates(idto.getCarbohydrates())
                 .build();
         return storage.save(productUpdate);
+    }
+
+    @Override
+    public void delete(Product product) {
+
     }
 }

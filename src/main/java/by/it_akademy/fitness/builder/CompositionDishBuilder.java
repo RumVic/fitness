@@ -13,7 +13,7 @@ public class CompositionDishBuilder {
     private Long dtUpdate;
     private String title;
     private UUID dish; // reference to dish
-    private List<Product> productList;
+    private Product product;
     private double weight;
 
     private CompositionDishBuilder() {
@@ -48,8 +48,8 @@ public class CompositionDishBuilder {
         return this;
     }
 
-    public CompositionDishBuilder setProductList(List<Product> productList) {
-        this.productList = productList;
+    public CompositionDishBuilder setProduct(Product product) {
+        this.product = product;
         return this;
     }
 
@@ -59,6 +59,6 @@ public class CompositionDishBuilder {
     }
 
     public CompositionDish build(){
-        return new CompositionDish(id,dtCreate,dtUpdate,title,dish,productList,weight);
+        return new CompositionDish(id,dtCreate,dtUpdate,title,dish, product,weight);
     }
 }

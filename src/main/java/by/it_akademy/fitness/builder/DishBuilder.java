@@ -1,9 +1,9 @@
 package by.it_akademy.fitness.builder;
 
-import by.it_akademy.fitness.IDTO.InputDTOComDish;
 import by.it_akademy.fitness.storage.entity.CompositionDish;
 import by.it_akademy.fitness.storage.entity.Dish;
 
+import java.util.List;
 import java.util.UUID;
 
 public class DishBuilder {
@@ -12,7 +12,8 @@ public class DishBuilder {
     private Long dtCreate;
     private Long dtUpdate;
     private String title;
-    private CompositionDish compositionDish;
+    private List<CompositionDish> comDishDTO;
+    private String createByRole;
 
     private DishBuilder() {
     }
@@ -42,12 +43,18 @@ public class DishBuilder {
     }
 
 
-    public DishBuilder setCompositionDish(CompositionDish compositionDish) {
-        this.compositionDish = compositionDish;
+    public DishBuilder setCompositionDish(List<CompositionDish> comDishDTO) {
+        this.comDishDTO = comDishDTO;
         return this;
     }
 
+    public DishBuilder setCreateByRole(String createByRole) {
+        this.createByRole = createByRole;
+        return this;
+
+    }
+
     public Dish build(){
-        return new Dish(id,dtCreate,dtUpdate,title, compositionDish);
+        return new Dish(id,dtCreate,dtUpdate,title, comDishDTO,createByRole);
     }
 }

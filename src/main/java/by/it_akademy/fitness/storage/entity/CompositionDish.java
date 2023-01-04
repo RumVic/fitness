@@ -1,7 +1,6 @@
 package by.it_akademy.fitness.storage.entity;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -17,9 +16,9 @@ public class CompositionDish {
 
     private UUID dish; // reference to dish
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(insertable = false, updatable = false)
-    private List<Product> productList;
+    @OneToOne(fetch = FetchType.EAGER)//cascade = CascadeType.ALL,
+    //@JoinColumn(insertable = false, updatable = false)
+    private Product product;
 
     private double weight;
 
@@ -32,14 +31,14 @@ public class CompositionDish {
             Long dtUpdate,
             String title,
             UUID dish,
-            List<Product> productList,
+            Product product,
             double weight) {
         this.id = id;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;
         this.title = title;
         this.dish = dish;
-        this.productList = productList;
+        this.product = product;
         this.weight = weight;
     }
 
@@ -83,12 +82,12 @@ public class CompositionDish {
         this.dish = dish;
     }
 
-    public List<Product> getProductList() {
-        return productList;
+    public Product getProductList() {
+        return product;
     }
 
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
+    public void setProductList(Product product) {
+        this.product = product;
     }
 
     public double getWeight() {

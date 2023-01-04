@@ -1,12 +1,13 @@
 package by.it_akademy.fitness.service;
 
 
-import by.it_akademy.fitness.IDTO.InputDTOComDish;
-import by.it_akademy.fitness.IDTO.InputDTODish;
+import by.it_akademy.fitness.IDTO.InputComDishDTO;
+import by.it_akademy.fitness.IDTO.InputDishDTO;
 import by.it_akademy.fitness.builder.DishBuilder;
 import by.it_akademy.fitness.service.api.ICompositionDishService;
 import by.it_akademy.fitness.service.api.IDishService;
 import by.it_akademy.fitness.storage.api.IDishStorage;
+import by.it_akademy.fitness.storage.entity.CompositionDish;
 import by.it_akademy.fitness.storage.entity.Dish;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,22 +30,24 @@ public class DishService implements IDishService {
 
     @Override
     @Transactional
-    public Dish create(InputDTODish idto) {
+    public Dish create(InputDishDTO idto) {
 
-      InputDTOComDish compositionDish = idto.getCompositionDishObject();
+        List<InputComDishDTO> list = idto.getComDishDTO();
+
+        UUID idDish = UUID.randomUUID();
 
         return storage.save(DishBuilder
                 .create()
-                .setId(UUID.randomUUID())
+                .setId(idDish)
                 .setDtCreate(Clock.systemUTC().millis())
                 .setDtUpdate(Clock.systemUTC().millis())
                 .setTitle(idto.getTitle())
-                .setCompositionDish(service.create(compositionDish))
+                .setCompositionDish(service.create(list, idDish))
                 .build()
         );
     }
 
-    public Dish read (UUID uuid) {
+    public Dish read(UUID uuid) {
         return storage.findById(uuid).orElseThrow();
     }
 
@@ -55,29 +58,38 @@ public class DishService implements IDishService {
 
     @Override
     @Transactional
-    public Dish update(UUID id, Long dtUpdate, InputDTODish idto) {
-        return null;
-      /*  Dish readed = storage.findById(id).orElseThrow();
+    public Dish update(UUID id, Long dtUpdate, InputDishDTO idto) {
+
+        Dish readed = storage.findById(id).orElseThrow();
+
+        List<CompositionDish> readedList = readed.getCompositionDishList();
+
+        service.delete(readedList);
 
         if (readed == null) {
             throw new IllegalArgumentException("Меню не найдено");
         }
 
-
         if (!readed.getDtUpdate().equals(dtUpdate)) {
             throw new IllegalArgumentException("К сожалению меню уже было отредактировано кем-то другим");
         }
+
+        List<InputComDishDTO> list = idto.getComDishDTO();
 
         Dish dishUpdate = DishBuilder
                 .create()
                 .setId(id)
                 .setDtCreate(readed.getDtCreate())
-                .setDtUpdate(dtUpdate)
-                .setCompositionDish((service.create(compositionDish)))
+                .setDtUpdate(Clock.systemUTC().millis())
+                .setCompositionDish((service.update(list, id)))
+                .setTitle(idto.getTitle())
                 .build();
         return storage.save(dishUpdate);
+    }
 
-       */
+    @Override
+    public void delete(Dish dish) {
+
     }
 }
 

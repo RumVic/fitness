@@ -2,7 +2,7 @@ package by.it_akademy.fitness.IDTO;
 
 import java.util.Objects;
 
-public class InputDTOProduct {
+public class InputProductDTO {
 
     private String title;
 
@@ -16,7 +16,7 @@ public class InputDTOProduct {
 
     private double carbohydrates;
 
-  public InputDTOProduct(String title,
+  public InputProductDTO(String title,
                          double weight,
                          double calories,
                          double proteins,
@@ -57,8 +57,8 @@ public class InputDTOProduct {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof InputDTOProduct)) return false;
-        InputDTOProduct inputDTO = (InputDTOProduct) o;
+        if (!(o instanceof InputProductDTO)) return false;
+        InputProductDTO inputDTO = (InputProductDTO) o;
         return Double.compare(inputDTO.weight, weight) == 0
                 && Double.compare(inputDTO.calories, calories) == 0
                 && Double.compare(inputDTO.proteins, proteins) == 0
