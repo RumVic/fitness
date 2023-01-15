@@ -1,4 +1,4 @@
 package by.it_akademy.fitness.ODTO;
 
-public class OutputDTOComDish {
+public class OutputDiaryFoodDTO {
 }

@@ -3,7 +3,6 @@ package by.it_akademy.fitness.builder;
 import by.it_akademy.fitness.storage.entity.CompositionDish;
 import by.it_akademy.fitness.storage.entity.Product;
 
-import java.util.List;
 import java.util.UUID;
 
 public class CompositionDishBuilder {

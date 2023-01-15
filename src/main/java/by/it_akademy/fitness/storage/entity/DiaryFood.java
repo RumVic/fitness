@@ -15,20 +15,42 @@ public class DiaryFood {
     @Column(name = "dt_supply")
     private Long dtSupply;
 
-    @OneToOne
+    @ManyToOne(targetEntity = Dish.class )
     @JoinColumn
     private Dish dish;
+
     @Column(name = "weight_dish")
     private double weightDish;
 
-    @OneToOne
+    @ManyToOne(targetEntity = Product.class)
     private Product product;
+
     @Column(name = "weight_product")
     private double weightProduct;
 
     private Long profile;
 
     public DiaryFood() {
+    }
+
+    public DiaryFood(UUID id,
+                     Long dtCreate,
+                     Long dtUpdate,
+                     Long dtSupply,
+                     Dish dish,
+                     double weightDish,
+                     Product product,
+                     double weightProduct,
+                     Long profile) {
+        this.id = id;
+        this.dtCreate = dtCreate;
+        this.dtUpdate = dtUpdate;
+        this.dtSupply = dtSupply;
+        this.dish = dish;
+        this.weightDish = weightDish;
+        this.product = product;
+        this.weightProduct = weightProduct;
+        this.profile = profile;
     }
 
     public UUID getId() {
