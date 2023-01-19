@@ -1,6 +1,6 @@
 package by.it_akademy.fitness.service;
 
-import by.it_akademy.fitness.IDTO.InputDiaryFoodDTO;
+import by.it_akademy.fitness.idto.InputDiaryFoodDTO;
 import by.it_akademy.fitness.builder.DiaryFoodBuilder;
 import by.it_akademy.fitness.service.api.IDiaryFoodService;
 import by.it_akademy.fitness.service.api.IDishService;
@@ -8,6 +8,8 @@ import by.it_akademy.fitness.service.api.IProductService;
 import by.it_akademy.fitness.storage.api.IDiaryFoodStorage;
 import by.it_akademy.fitness.storage.entity.DiaryFood;
 import by.it_akademy.fitness.storage.entity.Dish;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,25 +20,26 @@ import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class DiaryFoodService implements IDiaryFoodService {
-
+    @Autowired
     private final IDiaryFoodStorage storage;
-
+    @Autowired
     private final IDishService serviceDish;
-
+    @Autowired
     private final IProductService serviceProduct;
 
-    public DiaryFoodService(IDiaryFoodStorage storage,
+  /*  public DiaryFoodService(IDiaryFoodStorage storage,
                             IDishService serviceDish,
                             IProductService serviceProduct) {
         this.storage = storage;
         this.serviceDish = serviceDish;
         this.serviceProduct = serviceProduct;
-    }
+    }*/
 
     @Override
     @Transactional
-    public DiaryFood create(InputDiaryFoodDTO dto) {
+    public DiaryFood create(InputDiaryFoodDTO dto,String header) {
 
         Dish readedDish = serviceDish.read(dto.getDish().getId());
 

@@ -1,14 +1,16 @@
 package by.it_akademy.fitness.service;
 
 
-import by.it_akademy.fitness.IDTO.InputComDishDTO;
-import by.it_akademy.fitness.IDTO.InputDishDTO;
+import by.it_akademy.fitness.idto.InputComDishDTO;
+import by.it_akademy.fitness.idto.InputDishDTO;
 import by.it_akademy.fitness.builder.DishBuilder;
 import by.it_akademy.fitness.service.api.ICompositionDishService;
 import by.it_akademy.fitness.service.api.IDishService;
 import by.it_akademy.fitness.storage.api.IDishStorage;
 import by.it_akademy.fitness.storage.entity.CompositionDish;
 import by.it_akademy.fitness.storage.entity.Dish;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,19 +20,21 @@ import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class DishService implements IDishService {
-
+    @Autowired
     private final IDishStorage storage;
+    @Autowired
     private final ICompositionDishService service;
 
-    public DishService(IDishStorage dishStorage, ICompositionDishService service) {
+   /* public DishService(IDishStorage dishStorage, ICompositionDishService service) {
         this.storage = dishStorage;
         this.service = service;
-    }
+    }*/
 
     @Override
     @Transactional
-    public Dish create(InputDishDTO idto) {
+    public Dish create(InputDishDTO idto, String header) {
 
         List<InputComDishDTO> list = idto.getComDishDTO();
 

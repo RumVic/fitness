@@ -1,10 +1,15 @@
 package by.it_akademy.fitness.service;
 
-import by.it_akademy.fitness.IDTO.InputProductDTO;
+import by.it_akademy.fitness.idto.InputProductDTO;
 import by.it_akademy.fitness.builder.ProductBuilder;
+import by.it_akademy.fitness.security.filter.JwtUtil;
 import by.it_akademy.fitness.service.api.IProductService;
+import by.it_akademy.fitness.service.api.IUserService;
 import by.it_akademy.fitness.storage.api.IProductStorage;
 import by.it_akademy.fitness.storage.entity.Product;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,17 +19,25 @@ import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class ProductService implements IProductService {
-
+    @Autowired
     private final IProductStorage storage;
+    @Autowired
+    private final IUserService userService;
+    @Autowired
+    private final JwtUtil jwtUtil;
 
-    public ProductService(IProductStorage productStorage) {
+
+
+    /*public ProductService(IProductStorage productStorage) {
         this.storage = productStorage;
-    }
+    }*/
 
     @Override
     @Transactional
-    public Product create(InputProductDTO idto) {
+    public Product create(InputProductDTO idto,String header) {
+        String login = extractToken(header);
         return storage.save(ProductBuilder
                 .create()
                 .setId(UUID.randomUUID())
@@ -36,6 +49,7 @@ public class ProductService implements IProductService {
                 .setProteins(idto.getProteins())
                 .setFats(idto.getFats())
                 .setCarbohydrates(idto.getCarbohydrates())
+                .setCreatedByRole(login)
                 .build());
     }
 
@@ -80,6 +94,13 @@ public class ProductService implements IProductService {
 
     @Override
     public void delete(Product product) {
+    }
+    public String extractToken(String authHeader) {
 
+        String jwtToken = authHeader.substring(7);
+        String email = jwtUtil.extractUsername(jwtToken);
+        UserDetails currentUser = userService.loadUserByLogin(email);
+        String currentLogin = currentUser.getUsername();
+        return currentLogin;
     }
 }

@@ -1,4 +1,4 @@
-package by.it_akademy.fitness.IDTO;
+package by.it_akademy.fitness.idto;
 
 
 import by.it_akademy.fitness.storage.entity.Product;

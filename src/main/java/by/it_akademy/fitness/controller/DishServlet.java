@@ -1,26 +1,33 @@
 package by.it_akademy.fitness.controller;
 
 
-import by.it_akademy.fitness.IDTO.InputDishDTO;
+import by.it_akademy.fitness.idto.InputDishDTO;
 import by.it_akademy.fitness.service.api.IDishService;
 import by.it_akademy.fitness.storage.entity.Dish;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.net.http.HttpRequest;
 import java.util.List;
 import java.util.UUID;
 
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+
 @RestController
 @RequestMapping("/recipe")//http://localhost:8080/recipe
+@RequiredArgsConstructor
 public class DishServlet {
 
-
+    @Autowired
     private final IDishService service;
 
-    public DishServlet(IDishService dishService) {
+   /* public DishServlet(IDishService dishService) {
         this.service = dishService;
-    }
+    }*/
 
     @GetMapping("/id")//http://localhost:8080/recipe/id + id param
     protected ResponseEntity<Dish> getById(@RequestParam(name = "id") UUID id) {
@@ -35,8 +42,9 @@ public class DishServlet {
 
 
     @PostMapping
-    protected ResponseEntity<Dish> post(@RequestBody InputDishDTO idto) {
-        Dish created = this.service.create(idto);
+    protected ResponseEntity<Dish> post(@RequestBody InputDishDTO idto ,@RequestParam HttpServletRequest request) {
+        final String authHeader = request.getHeader(AUTHORIZATION);
+        Dish created = this.service.create(idto,authHeader);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 

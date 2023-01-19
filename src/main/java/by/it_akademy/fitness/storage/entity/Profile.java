@@ -1,13 +1,14 @@
 package by.it_akademy.fitness.storage.entity;
 
-import by.it_akademy.fitness.util.Gender;
-import by.it_akademy.fitness.util.Lifestyle;
+import by.it_akademy.fitness.util.EGender;
+import by.it_akademy.fitness.util.ELifestyle;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
+@Table(name = "profile_fitness")
 public class Profile {
     @Id
     private UUID id;
@@ -20,9 +21,14 @@ public class Profile {
     private double height;
     private double weight;
     private LocalDate birthday;
-    private Gender gender;
-    private Lifestyle lifestyle;
+    @Enumerated(value = EnumType.STRING)
+    private EGender gender;
+    @Enumerated(value = EnumType.STRING)
+    private ELifestyle ELifestyle;
     private double targetWeight;
+
+    public Profile() {
+    }
 
     public Profile(UUID id,
                    Long dtCreate,
@@ -31,8 +37,8 @@ public class Profile {
                    double height,
                    double weight,
                    LocalDate birthday,
-                   Gender gender,
-                   Lifestyle lifestyle,
+                   EGender gender,
+                   ELifestyle ELifestyle,
                    double targetWeight) {
         this.id = id;
         this.dtCreate = dtCreate;
@@ -42,7 +48,7 @@ public class Profile {
         this.weight = weight;
         this.birthday = birthday;
         this.gender = gender;
-        this.lifestyle = lifestyle;
+        this.ELifestyle = ELifestyle;
         this.targetWeight = targetWeight;
     }
 
@@ -102,20 +108,20 @@ public class Profile {
         this.birthday = birthday;
     }
 
-    public Gender getGender() {
+    public EGender getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(EGender gender) {
         this.gender = gender;
     }
 
-    public Lifestyle getLifestyle() {
-        return lifestyle;
+    public ELifestyle getLifestyle() {
+        return ELifestyle;
     }
 
-    public void setLifestyle(Lifestyle lifestyle) {
-        this.lifestyle = lifestyle;
+    public void setLifestyle(ELifestyle ELifestyle) {
+        this.ELifestyle = ELifestyle;
     }
 
     public double getTargetWeight() {
@@ -125,5 +131,4 @@ public class Profile {
     public void setTargetWeight(double targetWeight) {
         this.targetWeight = targetWeight;
     }
-
 }

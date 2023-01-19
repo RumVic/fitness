@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public interface IService<ENTITY, IDTO, ODTO> {
 
-    ENTITY create(IDTO dto);
+    ENTITY create(IDTO dto,String header);
 
     ENTITY read(UUID id);
 

@@ -1,7 +1,7 @@
 package by.it_akademy.fitness.service.api;
 
-import by.it_akademy.fitness.IDTO.InputComDishDTO;
-import by.it_akademy.fitness.ODTO.OutputComDishDTO;
+import by.it_akademy.fitness.idto.InputComDishDTO;
+import by.it_akademy.fitness.odto.OutputComDishDTO;
 import by.it_akademy.fitness.storage.entity.CompositionDish;
 
 import java.util.List;

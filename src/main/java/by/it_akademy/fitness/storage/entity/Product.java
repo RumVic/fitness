@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
+@Table(name = "product_fitness")
 public class Product {
     @Id
     private UUID id;

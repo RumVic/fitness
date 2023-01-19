@@ -1,12 +1,15 @@
 package by.it_akademy.fitness.service;
 
-import by.it_akademy.fitness.IDTO.InputComDishDTO;
+import by.it_akademy.fitness.idto.InputComDishDTO;
 import by.it_akademy.fitness.builder.CompositionDishBuilder;
 import by.it_akademy.fitness.service.api.ICompositionDishService;
 import by.it_akademy.fitness.service.api.IProductService;
 import by.it_akademy.fitness.storage.api.ICompositionDishStorage;
 import by.it_akademy.fitness.storage.entity.CompositionDish;
 import by.it_akademy.fitness.storage.entity.Product;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,18 +20,20 @@ import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class CompositionDishService implements ICompositionDishService {
 
-
+    @Autowired
     private final ICompositionDishStorage storage;
-
+    @Autowired
     private final IProductService service;
 
-    public CompositionDishService(ICompositionDishStorage storage,
+
+   /* public CompositionDishService(ICompositionDishStorage storage,
                                   IProductService service) {
         this.storage = storage;
         this.service = service;
-    }
+    }*/
 
     @Override
     @Transactional
@@ -55,7 +60,7 @@ public class CompositionDishService implements ICompositionDishService {
     }
 
     @Override
-    public CompositionDish create(InputComDishDTO dto) {
+    public CompositionDish create(InputComDishDTO dto,String header) {
         return null;
     }
 

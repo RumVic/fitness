@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
+@Table(name ="composition_dish_fitness")
 public class CompositionDish {
     @Id
     private UUID id;

@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
+@Table(name ="diary_food_fitness")
 public class DiaryFood {
     @Id
     private UUID id;
