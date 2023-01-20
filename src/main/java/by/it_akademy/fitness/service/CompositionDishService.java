@@ -100,7 +100,7 @@ public class CompositionDishService implements ICompositionDishService {
     }
 
     @Override
-    public CompositionDish update(UUID id, Long dtUpdate, InputComDishDTO item) {
+    public CompositionDish update(UUID id, Long dtUpdate, InputComDishDTO item, String header) {
         return null;
     }
 

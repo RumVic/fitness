@@ -9,7 +9,6 @@ import by.it_akademy.fitness.storage.api.IProductStorage;
 import by.it_akademy.fitness.storage.entity.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +25,7 @@ public class ProductService implements IProductService {
     @Autowired
     private final IUserService userService;
     @Autowired
+
     private final JwtUtil jwtUtil;
 
 
@@ -37,7 +37,9 @@ public class ProductService implements IProductService {
     @Override
     @Transactional
     public Product create(InputProductDTO idto,String header) {
-        String login = extractToken(header);
+
+        String login = userService.extractCurrentToken(header);
+
         return storage.save(ProductBuilder
                 .create()
                 .setId(UUID.randomUUID())
@@ -64,9 +66,11 @@ public class ProductService implements IProductService {
 
     @Override
     @Transactional
-    public Product update(UUID id, Long dtUpdate, InputProductDTO idto) {
+    public Product update(UUID id, Long dtUpdate, InputProductDTO idto,String header) {
 
     Product readed = storage.findById(id).orElseThrow();
+
+    String login = userService.extractCurrentToken(header);
 
         if (readed == null) {
             throw new IllegalArgumentException("Меню не найдено");
@@ -88,19 +92,12 @@ public class ProductService implements IProductService {
                 .setProteins(idto.getProteins())
                 .setFats(idto.getFats())
                 .setCarbohydrates(idto.getCarbohydrates())
+                .setCreatedByRole(login)
                 .build();
         return storage.save(productUpdate);
     }
 
     @Override
     public void delete(Product product) {
-    }
-    public String extractToken(String authHeader) {
-
-        String jwtToken = authHeader.substring(7);
-        String email = jwtUtil.extractUsername(jwtToken);
-        UserDetails currentUser = userService.loadUserByLogin(email);
-        String currentLogin = currentUser.getUsername();
-        return currentLogin;
     }
 }

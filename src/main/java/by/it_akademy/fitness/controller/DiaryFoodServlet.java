@@ -15,7 +15,7 @@ import java.util.List;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @RestController
-@RequestMapping("/journal")
+@RequestMapping("/api/v1/journal")
 @RequiredArgsConstructor
 public class DiaryFoodServlet {
     @Autowired

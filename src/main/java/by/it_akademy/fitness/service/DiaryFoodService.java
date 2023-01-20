@@ -5,6 +5,7 @@ import by.it_akademy.fitness.builder.DiaryFoodBuilder;
 import by.it_akademy.fitness.service.api.IDiaryFoodService;
 import by.it_akademy.fitness.service.api.IDishService;
 import by.it_akademy.fitness.service.api.IProductService;
+import by.it_akademy.fitness.service.api.IUserService;
 import by.it_akademy.fitness.storage.api.IDiaryFoodStorage;
 import by.it_akademy.fitness.storage.entity.DiaryFood;
 import by.it_akademy.fitness.storage.entity.Dish;
@@ -22,6 +23,9 @@ import java.util.UUID;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class DiaryFoodService implements IDiaryFoodService {
+
+    @Autowired
+    private final IUserService userService;
     @Autowired
     private final IDiaryFoodStorage storage;
     @Autowired
@@ -41,6 +45,9 @@ public class DiaryFoodService implements IDiaryFoodService {
     @Transactional
     public DiaryFood create(InputDiaryFoodDTO dto,String header) {
 
+        UUID uuid = userService.extractCurrentUUID(header);
+
+
         Dish readedDish = serviceDish.read(dto.getDish().getId());
 
         return storage.save(DiaryFoodBuilder
@@ -53,7 +60,7 @@ public class DiaryFoodService implements IDiaryFoodService {
                 .setWeightDish(dto.getWeightDish())
                 .setProduct(dto.getProduct())
                 .setWeightProduct(dto.getWeightProduct())
-                .setProfile(dto.getProfile())
+                .setProfile(uuid)
                 .build());
     }
 
@@ -69,7 +76,7 @@ public class DiaryFoodService implements IDiaryFoodService {
 
     @Override
     @Transactional
-    public DiaryFood update(UUID id, Long dtUpdate, InputDiaryFoodDTO item) {
+    public DiaryFood update(UUID id, Long dtUpdate, InputDiaryFoodDTO item,String header) {
         return null;
     }
 

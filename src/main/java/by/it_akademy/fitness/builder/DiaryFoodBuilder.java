@@ -24,7 +24,7 @@ public class DiaryFoodBuilder {
     
     private double weightProduct;
 
-    private Long profile;
+    private UUID profile;
     
     private DiaryFoodBuilder() {
     }
@@ -73,7 +73,7 @@ public class DiaryFoodBuilder {
         return this;
     }
 
-    public DiaryFoodBuilder setProfile(Long profile) {
+    public DiaryFoodBuilder setProfile(UUID  profile) {
         this.profile = profile;
         return this;
     }

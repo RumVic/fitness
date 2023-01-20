@@ -18,7 +18,7 @@ import java.util.UUID;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @RestController
-@RequestMapping("/recipe")//http://localhost:8080/recipe
+@RequestMapping("/api/v1/recipe")//http://localhost:8080/recipe
 @RequiredArgsConstructor
 public class DishServlet {
 
@@ -42,7 +42,7 @@ public class DishServlet {
 
 
     @PostMapping
-    protected ResponseEntity<Dish> post(@RequestBody InputDishDTO idto ,@RequestParam HttpServletRequest request) {
+    protected ResponseEntity<Dish> post(@RequestBody InputDishDTO idto , HttpServletRequest request) {
         final String authHeader = request.getHeader(AUTHORIZATION);
         Dish created = this.service.create(idto,authHeader);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
@@ -51,14 +51,15 @@ public class DishServlet {
     @PutMapping
     protected ResponseEntity<Dish> doPut(@RequestParam UUID id,
                                          @RequestParam(name = "dt_update") Long dt_update,
-                                         @RequestBody InputDishDTO idto) {
-
+                                         @RequestBody InputDishDTO idto,
+                                         HttpServletRequest request) {
+        final String authHeader = request.getHeader(AUTHORIZATION);
         /*LocalDateTime dtUpdate = LocalDateTime.ofInstant(
                 Instant.ofEpochMilli(dtUpdateRaw),
                 ZoneId.of("UTC")
         );*/
 
-        return ResponseEntity.ok(this.service.update(id, dt_update, idto));
+        return ResponseEntity.ok(this.service.update(id, dt_update, idto,authHeader));
     }
 }
 

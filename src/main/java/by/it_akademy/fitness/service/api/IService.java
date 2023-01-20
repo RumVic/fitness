@@ -11,7 +11,7 @@ public interface IService<ENTITY, IDTO, ODTO> {
 
     List<ENTITY> get();
 
-    ENTITY update(UUID id, Long dtUpdate, IDTO item);
+    ENTITY update(UUID id, Long dtUpdate, IDTO item,String header);
 
     void delete(ENTITY entity);
 

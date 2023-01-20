@@ -2,6 +2,7 @@ package by.it_akademy.fitness.service;
 
 import by.it_akademy.fitness.idto.InputUserDTO;
 import by.it_akademy.fitness.builder.UserBuilder;
+import by.it_akademy.fitness.security.filter.JwtUtil;
 import by.it_akademy.fitness.service.api.IUserService;
 import by.it_akademy.fitness.storage.api.IUserStorage;
 import by.it_akademy.fitness.storage.entity.User;
@@ -26,6 +27,8 @@ import java.util.UUID;
 public class UserService implements IUserService, UserDetailsService {
 
     private final BCryptPasswordEncoder passwordEncoder;
+
+    private final JwtUtil jwtUtil;
 
     private final IUserStorage userStorage;
     //@Autowired
@@ -80,7 +83,7 @@ public class UserService implements IUserService, UserDetailsService {
     }
 
     @Override
-    public User update(UUID id, Long dtUpdate, InputUserDTO item) {
+    public User update(UUID id, Long dtUpdate, InputUserDTO item,String header) {
         return null;
     }
 
@@ -92,5 +95,22 @@ public class UserService implements IUserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return null;
+    }
+
+    public String extractCurrentToken(String authHeader) {
+        String jwtToken = authHeader.substring(7);
+        String email = jwtUtil.extractUsername(jwtToken);
+        UserDetails currentUser = loadUserByLogin(email);
+        String currentLogin = currentUser.getUsername();
+        return currentLogin;
+    }
+
+    public UUID extractCurrentUUID(String authHeader) {
+        String jwtToken = authHeader.substring(7);
+        String email = jwtUtil.extractUsername(jwtToken);
+        UserDetails currentUserDetails = loadUserByLogin(email);
+        String currentLogin = currentUserDetails.getUsername();
+        User currentUser = userStorage.findByLogin(currentLogin);
+        return currentUser.getId();
     }
 }

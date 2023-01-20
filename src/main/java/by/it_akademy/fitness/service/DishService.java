@@ -6,7 +6,9 @@ import by.it_akademy.fitness.idto.InputDishDTO;
 import by.it_akademy.fitness.builder.DishBuilder;
 import by.it_akademy.fitness.service.api.ICompositionDishService;
 import by.it_akademy.fitness.service.api.IDishService;
+import by.it_akademy.fitness.service.api.IUserService;
 import by.it_akademy.fitness.storage.api.IDishStorage;
+import by.it_akademy.fitness.storage.api.IUserStorage;
 import by.it_akademy.fitness.storage.entity.CompositionDish;
 import by.it_akademy.fitness.storage.entity.Dish;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,8 @@ public class DishService implements IDishService {
     @Autowired
     private final IDishStorage storage;
     @Autowired
+    private final IUserService userService;
+    @Autowired
     private final ICompositionDishService service;
 
    /* public DishService(IDishStorage dishStorage, ICompositionDishService service) {
@@ -35,6 +39,8 @@ public class DishService implements IDishService {
     @Override
     @Transactional
     public Dish create(InputDishDTO idto, String header) {
+
+        String login = userService.extractCurrentToken(header);
 
         List<InputComDishDTO> list = idto.getComDishDTO();
 
@@ -47,6 +53,7 @@ public class DishService implements IDishService {
                 .setDtUpdate(Clock.systemUTC().millis())
                 .setTitle(idto.getTitle())
                 .setCompositionDish(service.create(list, idDish))
+                .setCreateByRole(login)
                 .build()
         );
     }
@@ -62,7 +69,9 @@ public class DishService implements IDishService {
 
     @Override
     @Transactional
-    public Dish update(UUID id, Long dtUpdate, InputDishDTO idto) {
+    public Dish update(UUID id, Long dtUpdate, InputDishDTO idto,String header) {
+
+        String login = userService.extractCurrentToken(header);
 
         Dish readed = storage.findById(id).orElseThrow();
 
@@ -87,6 +96,7 @@ public class DishService implements IDishService {
                 .setDtUpdate(Clock.systemUTC().millis())
                 .setCompositionDish((service.update(list, id)))
                 .setTitle(idto.getTitle())
+                .setCreateByRole(login)
                 .build();
         return storage.save(dishUpdate);
     }

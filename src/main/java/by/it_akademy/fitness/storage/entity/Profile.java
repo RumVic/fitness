@@ -16,7 +16,7 @@ public class Profile {
     private Long dtCreate;
     @Column(name = "dt_update")
     private Long dtUpdate;
-    @ManyToOne
+    @OneToOne
     private User user;
     private double height;
     private double weight;
@@ -24,7 +24,7 @@ public class Profile {
     @Enumerated(value = EnumType.STRING)
     private EGender gender;
     @Enumerated(value = EnumType.STRING)
-    private ELifestyle ELifestyle;
+    private ELifestyle lifestyle;
     private double targetWeight;
 
     public Profile() {
@@ -38,7 +38,7 @@ public class Profile {
                    double weight,
                    LocalDate birthday,
                    EGender gender,
-                   ELifestyle ELifestyle,
+                   ELifestyle lifestyle,
                    double targetWeight) {
         this.id = id;
         this.dtCreate = dtCreate;
@@ -48,7 +48,7 @@ public class Profile {
         this.weight = weight;
         this.birthday = birthday;
         this.gender = gender;
-        this.ELifestyle = ELifestyle;
+        this.lifestyle = lifestyle;
         this.targetWeight = targetWeight;
     }
 
@@ -117,11 +117,11 @@ public class Profile {
     }
 
     public ELifestyle getLifestyle() {
-        return ELifestyle;
+        return lifestyle;
     }
 
     public void setLifestyle(ELifestyle ELifestyle) {
-        this.ELifestyle = ELifestyle;
+        this.lifestyle = ELifestyle;
     }
 
     public double getTargetWeight() {

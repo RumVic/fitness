@@ -55,11 +55,13 @@ public class ProductServlet {
     @PutMapping
     protected ResponseEntity<Product> doPut(@RequestParam UUID id,
                                             @RequestParam(name = "dt_update") Long dt_update,
-                                            @RequestBody InputProductDTO idto){
+                                            @RequestBody InputProductDTO idto,
+                                            HttpServletRequest request){
+        final String authHeader = request.getHeader(AUTHORIZATION);
         /*LocalDateTime dtUpdate = LocalDateTime.ofInstant(
                 Instant.ofEpochMilli(dtUpdateRaw),
                 ZoneId.of("UTC")
         );*/
-        return ResponseEntity.ok(this.service.update(id, dt_update, idto));
+        return ResponseEntity.ok(this.service.update(id, dt_update, idto,authHeader));
     }
 }

@@ -3,6 +3,8 @@ package by.it_akademy.fitness.idto;
 import by.it_akademy.fitness.storage.entity.Dish;
 import by.it_akademy.fitness.storage.entity.Product;
 
+import java.util.UUID;
+
 public class InputDiaryFoodDTO {
 
     private Long dtSupply;
@@ -15,14 +17,14 @@ public class InputDiaryFoodDTO {
 
     private double weightProduct;
 
-    private Long profile;
+    private UUID profile;
 
     public InputDiaryFoodDTO(Long dtSupply,
                              Dish dish,
                              double weightDish,
                              Product product,
                              double weightProduct,
-                             Long profile) {
+                             UUID  profile) {
         this.dtSupply = dtSupply;
         this.dish = dish;
         this.weightDish = weightDish;
@@ -51,7 +53,7 @@ public class InputDiaryFoodDTO {
         return weightProduct;
     }
 
-    public Long getProfile() {
+    public UUID getProfile() {
         return profile;
     }
 }

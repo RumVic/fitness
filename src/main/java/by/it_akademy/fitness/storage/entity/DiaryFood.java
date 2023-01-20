@@ -29,7 +29,7 @@ public class DiaryFood {
     @Column(name = "weight_product")
     private double weightProduct;
 
-    private Long profile;
+    private UUID profile;
 
     public DiaryFood() {
     }
@@ -42,7 +42,7 @@ public class DiaryFood {
                      double weightDish,
                      Product product,
                      double weightProduct,
-                     Long profile) {
+                     UUID  profile) {
         this.id = id;
         this.dtCreate = dtCreate;
         this.dtUpdate = dtUpdate;
@@ -118,11 +118,11 @@ public class DiaryFood {
         this.weightProduct = weightProduct;
     }
 
-    public Long getProfile() {
+    public UUID getProfile() {
         return profile;
     }
 
-    public void setProfile(Long profile) {
+    public void setProfile(UUID profile) {
         this.profile = profile;
     }
 
