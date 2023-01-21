@@ -21,7 +21,7 @@ public class ProfileServlet {
 
     private final IProfileService service;
 
-    @GetMapping("/id")// //http://localhost:8080/api/v1/profile/id + id param
+    @GetMapping()// //http://localhost:8080/api/v1/profile/id + id param
     protected ResponseEntity<Profile> getById (@RequestParam(name = "id") UUID id){
         return ResponseEntity.ok(service.read(id));
     }

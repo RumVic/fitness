@@ -1,7 +1,9 @@
 package by.it_akademy.fitness.service;
 
+import by.it_akademy.fitness.exception.LockException;
 import by.it_akademy.fitness.idto.InputDiaryFoodDTO;
 import by.it_akademy.fitness.builder.DiaryFoodBuilder;
+import by.it_akademy.fitness.idto.InputProfileDTO;
 import by.it_akademy.fitness.service.api.IDiaryFoodService;
 import by.it_akademy.fitness.service.api.IDishService;
 import by.it_akademy.fitness.service.api.IProductService;
@@ -41,11 +43,12 @@ public class DiaryFoodService implements IDiaryFoodService {
         this.serviceProduct = serviceProduct;
     }*/
 
+
     @Override
     @Transactional
-    public DiaryFood create(InputDiaryFoodDTO dto,String header) {
+    public DiaryFood createWithParam(InputDiaryFoodDTO dto, String header, UUID uuid) {
 
-        UUID uuid = userService.extractCurrentUUID(header);
+        UUID uid = userService.extractCurrentUUID(header);
 
 
         Dish readedDish = serviceDish.read(dto.getDish().getId());
@@ -76,12 +79,16 @@ public class DiaryFoodService implements IDiaryFoodService {
 
     @Override
     @Transactional
-    public DiaryFood update(UUID id, Long dtUpdate, InputDiaryFoodDTO item,String header) {
+    public DiaryFood update(UUID id, Long dtUpdate, InputDiaryFoodDTO item,String header)throws LockException {
         return null;
     }
 
     @Override
-    public void delete(DiaryFood diaryFood) {
+    public void delete(DiaryFood diaryFood) {}
 
+    @Override
+    @Transactional
+    public DiaryFood create(InputDiaryFoodDTO dto,String header) {
+        return null;
     }
 }

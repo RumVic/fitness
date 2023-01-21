@@ -11,29 +11,29 @@ public class InputProfileDTO {
 
     private double weight;
 
-    private LocalDate birthday;
+    private LocalDate dt_birthday;
 
-    private double targetWeight;
+    private double target;
 
-    private ELifestyle lifestyle;
+    private ELifestyle activity_type;
 
-    private EGender gender;
+    private EGender sex;
 
     public InputProfileDTO() {
     }
 
     public InputProfileDTO(double height,
                            double weight,
-                           LocalDate birthday,
-                           double targetWeight,
-                           ELifestyle lifestyle,
-                           EGender gender) {
+                           LocalDate dt_birthday,
+                           double target,
+                           ELifestyle activity_type,
+                           EGender sex) {
         this.height = height;
         this.weight = weight;
-        this.birthday = birthday;
-        this.targetWeight = targetWeight;
-        this.lifestyle = lifestyle;
-        this.gender = gender;
+        this.dt_birthday = dt_birthday;
+        this.target = target;
+        this.activity_type = activity_type;
+        this.sex = sex;
     }
 
     public double getHeight() {
@@ -45,18 +45,18 @@ public class InputProfileDTO {
     }
 
     public LocalDate getBirthday() {
-        return birthday;
+        return dt_birthday;
     }
 
-    public double getTargetWeight() {
-        return targetWeight;
+    public double getTarget() {
+        return target;
     }
 
-    public ELifestyle getLifestyle() {
-        return lifestyle;
+    public ELifestyle getActivity_type() {
+        return activity_type;
     }
 
-    public EGender getGender() {
-        return gender;
+    public EGender getSex() {
+        return sex;
     }
 }

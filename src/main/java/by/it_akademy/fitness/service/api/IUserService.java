@@ -17,4 +17,10 @@ public interface IUserService extends IService<User, InputUserDTO, OutputUserDTO
 
     UUID extractCurrentUUID(String header);
 
+    User extractCurrentUserProfile(String header);
+
+    User getMyInfo(String header);
+
+    User loadCurrentUserByLogin(String login);
+
 }

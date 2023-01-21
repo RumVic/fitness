@@ -1,6 +1,7 @@
 package by.it_akademy.fitness.controller;
 
 
+import by.it_akademy.fitness.exception.LockException;
 import by.it_akademy.fitness.idto.InputProductDTO;
 import by.it_akademy.fitness.security.filter.JwtUtil;
 import by.it_akademy.fitness.service.api.IProductService;
@@ -56,7 +57,7 @@ public class ProductServlet {
     protected ResponseEntity<Product> doPut(@RequestParam UUID id,
                                             @RequestParam(name = "dt_update") Long dt_update,
                                             @RequestBody InputProductDTO idto,
-                                            HttpServletRequest request){
+                                            HttpServletRequest request) throws LockException {
         final String authHeader = request.getHeader(AUTHORIZATION);
         /*LocalDateTime dtUpdate = LocalDateTime.ofInstant(
                 Instant.ofEpochMilli(dtUpdateRaw),

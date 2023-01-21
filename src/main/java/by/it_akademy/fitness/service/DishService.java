@@ -1,6 +1,7 @@
 package by.it_akademy.fitness.service;
 
 
+import by.it_akademy.fitness.exception.LockException;
 import by.it_akademy.fitness.idto.InputComDishDTO;
 import by.it_akademy.fitness.idto.InputDishDTO;
 import by.it_akademy.fitness.builder.DishBuilder;
@@ -69,7 +70,7 @@ public class DishService implements IDishService {
 
     @Override
     @Transactional
-    public Dish update(UUID id, Long dtUpdate, InputDishDTO idto,String header) {
+    public Dish update(UUID id, Long dtUpdate, InputDishDTO idto,String header) throws LockException {
 
         String login = userService.extractCurrentToken(header);
 

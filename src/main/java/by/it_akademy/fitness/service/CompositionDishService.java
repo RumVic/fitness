@@ -1,5 +1,6 @@
 package by.it_akademy.fitness.service;
 
+import by.it_akademy.fitness.exception.LockException;
 import by.it_akademy.fitness.idto.InputComDishDTO;
 import by.it_akademy.fitness.builder.CompositionDishBuilder;
 import by.it_akademy.fitness.service.api.ICompositionDishService;
@@ -100,7 +101,7 @@ public class CompositionDishService implements ICompositionDishService {
     }
 
     @Override
-    public CompositionDish update(UUID id, Long dtUpdate, InputComDishDTO item, String header) {
+    public CompositionDish update(UUID id, Long dtUpdate, InputComDishDTO item, String header)throws LockException {
         return null;
     }
 

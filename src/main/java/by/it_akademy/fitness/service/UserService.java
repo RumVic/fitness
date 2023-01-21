@@ -1,5 +1,6 @@
 package by.it_akademy.fitness.service;
 
+import by.it_akademy.fitness.exception.LockException;
 import by.it_akademy.fitness.idto.InputUserDTO;
 import by.it_akademy.fitness.builder.UserBuilder;
 import by.it_akademy.fitness.security.filter.JwtUtil;
@@ -83,7 +84,10 @@ public class UserService implements IUserService, UserDetailsService {
     }
 
     @Override
-    public User update(UUID id, Long dtUpdate, InputUserDTO item,String header) {
+    public User update(UUID id,
+                       Long dtUpdate,
+                       InputUserDTO item,
+                       String header) throws LockException {
         return null;
     }
 
@@ -95,6 +99,12 @@ public class UserService implements IUserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return null;
+    }
+
+    @Override
+    public User getMyInfo(String header) {
+        String currentLogin = extractCurrentToken(header);
+        return userStorage.findByLogin(currentLogin);
     }
 
     public String extractCurrentToken(String authHeader) {
@@ -112,5 +122,20 @@ public class UserService implements IUserService, UserDetailsService {
         String currentLogin = currentUserDetails.getUsername();
         User currentUser = userStorage.findByLogin(currentLogin);
         return currentUser.getId();
+    }
+
+    public User extractCurrentUserProfile(String authHeader) {
+        String jwtToken = authHeader.substring(7);
+        String email = jwtUtil.extractUsername(jwtToken);
+        UserDetails currentUserDetails = loadUserByLogin(email);
+        String currentLogin = currentUserDetails.getUsername();
+        User currentUser = userStorage.findByLogin(currentLogin);
+        return currentUser;
+    }
+
+    @Override
+    public User loadCurrentUserByLogin(String login) {
+        User crntUser = userStorage.findByLogin(login);
+        return crntUser;
     }
 }

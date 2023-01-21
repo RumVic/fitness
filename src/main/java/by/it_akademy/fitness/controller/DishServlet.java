@@ -1,6 +1,7 @@
 package by.it_akademy.fitness.controller;
 
 
+import by.it_akademy.fitness.exception.LockException;
 import by.it_akademy.fitness.idto.InputDishDTO;
 import by.it_akademy.fitness.service.api.IDishService;
 import by.it_akademy.fitness.storage.entity.Dish;
@@ -52,7 +53,7 @@ public class DishServlet {
     protected ResponseEntity<Dish> doPut(@RequestParam UUID id,
                                          @RequestParam(name = "dt_update") Long dt_update,
                                          @RequestBody InputDishDTO idto,
-                                         HttpServletRequest request) {
+                                         HttpServletRequest request) throws LockException {
         final String authHeader = request.getHeader(AUTHORIZATION);
         /*LocalDateTime dtUpdate = LocalDateTime.ofInstant(
                 Instant.ofEpochMilli(dtUpdateRaw),

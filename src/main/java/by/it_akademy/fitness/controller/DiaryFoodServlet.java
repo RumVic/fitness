@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.UUID;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
@@ -24,9 +25,11 @@ public class DiaryFoodServlet {
 
     @PostMapping
     protected ResponseEntity<DiaryFood> post(@RequestBody InputDiaryFoodDTO idto,
-                                             @RequestParam HttpServletRequest request) {
+                                             HttpServletRequest request,
+                                             @RequestParam(name = "id") UUID id) {
+
         final String authHeader = request.getHeader(AUTHORIZATION);
-        DiaryFood created = this.service.create(idto,authHeader);
+        DiaryFood created = this.service.createWithParam(idto,authHeader,id);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 

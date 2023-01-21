@@ -3,16 +3,18 @@ package by.it_akademy.fitness.controller;
 import by.it_akademy.fitness.idto.InputUserDTO;
 import by.it_akademy.fitness.security.filter.JwtUtil;
 import by.it_akademy.fitness.service.UserService;
+import by.it_akademy.fitness.storage.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @RestController
 @RequestMapping("api/v1/users")
@@ -43,6 +45,13 @@ public class UserServlet {
             return ResponseEntity.ok(jwtUtil.generateToken(userDetails,request.getMail()));
         }
         return ResponseEntity.status(400).body("Some error has occurred");
+    }
+
+    @GetMapping("/me")
+        public ResponseEntity<User> getMe(HttpServletRequest request) {
+        final String authHeader = request.getHeader(AUTHORIZATION);
+        return ResponseEntity.ok(service.getMyInfo(authHeader));
+
     }
 
 }

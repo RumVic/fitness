@@ -5,7 +5,6 @@ import by.it_akademy.fitness.security.filter.JwtAuthFilter;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -36,11 +35,11 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/**/users/**")
-                .permitAll()
+                .antMatchers("/**/users/me/**").hasAnyAuthority("ROLE_ADMIN","ROLE_USER")
                 .antMatchers("/**/users/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/**/product/**").permitAll()
                 .antMatchers("/**/recipe/**").hasAnyAuthority("ROLE_ADMIN","ROLE_USER")
+                .antMatchers("/**profile/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -54,7 +53,7 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);//there we want to add filter before another filter(jwtAuthFilter before
         //there we told Spring , hey go ahead and use this filter before authentication the User
         //because (in jwtAuthFilter we are checking the JWT and if everything is fine what we do - we
-        //set or we update the context of the security context holder,so we want to execute
+        //set, or we update the context of the security context holder,so we want to execute
         //jwtAuthFilter before UsernamePasswordAuthenticationFilter
 
         return (SecurityFilterChain) http.build();
