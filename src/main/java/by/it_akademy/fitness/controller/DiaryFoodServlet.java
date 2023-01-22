@@ -1,5 +1,6 @@
 package by.it_akademy.fitness.controller;
 
+import by.it_akademy.fitness.exception.LockException;
 import by.it_akademy.fitness.idto.InputDiaryFoodDTO;
 import by.it_akademy.fitness.service.api.IDiaryFoodService;
 import by.it_akademy.fitness.storage.entity.DiaryFood;
@@ -26,7 +27,7 @@ public class DiaryFoodServlet {
     @PostMapping
     protected ResponseEntity<DiaryFood> post(@RequestBody InputDiaryFoodDTO idto,
                                              HttpServletRequest request,
-                                             @RequestParam(name = "id") UUID id) {
+                                             @RequestParam(name = "id") UUID id) throws LockException {
 
         final String authHeader = request.getHeader(AUTHORIZATION);
         DiaryFood created = this.service.createWithParam(idto,authHeader,id);

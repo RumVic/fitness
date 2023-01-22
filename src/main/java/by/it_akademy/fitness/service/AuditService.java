@@ -20,7 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuditService implements IAuditService {
     @Autowired
-    private final IAuditStorage auditStorage;
+    private final IAuditStorage storage;
 
 
     @Override
@@ -30,7 +30,7 @@ public class AuditService implements IAuditService {
                         String text,
                         String idEntity) {
 
-        return auditStorage.save(
+        return storage.save(
                 AuditBuilder
                         .create()
                         .setId(UUID.randomUUID())
@@ -45,7 +45,13 @@ public class AuditService implements IAuditService {
 
     @Override
     public List<Audit> get() {
-        return null;
+        return storage.findAll();
+    }
+
+    @Override
+    public List<Audit> getById(String uuid) {
+        //return storage.findById(uuid).orElseThrow();
+        return storage.findByUid(uuid);
     }
 
     @Override

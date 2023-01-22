@@ -14,4 +14,6 @@ public interface IAuditService {
     List<Audit> get();
 
     Audit read (UUID uuid);
+
+    List<Audit> getById(String uuid);
 }

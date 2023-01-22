@@ -75,12 +75,12 @@ public class UserService implements IUserService, UserDetailsService {
 
     @Override
     public User read(UUID id) {
-        return null;
+        return userStorage.findById(id).orElseThrow();
     }
 
     @Override
     public List<User> get() {
-        return null;
+        return userStorage.findAll();
     }
 
     @Override

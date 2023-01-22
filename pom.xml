@@ -55,7 +55,18 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>com.moz.fiji.annotations</groupId>
+			<artifactId>annotations</artifactId>
+			<version>0.1.22</version>
+		</dependency>
+		<dependency>
+			<groupId>pl.matsuo</groupId>
+			<artifactId>hibernate-validator-pl</artifactId>
+			<version>0.1.0</version>
+		</dependency>
 	</dependencies>
+
 
 	<build>
 		<plugins>
