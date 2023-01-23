@@ -3,14 +3,17 @@ package by.it_akademy.fitness.service;
 import by.it_akademy.fitness.builder.ProfileBuilder;
 import by.it_akademy.fitness.exception.LockException;
 import by.it_akademy.fitness.idto.InputProfileDTO;
+import by.it_akademy.fitness.service.api.IAuditService;
 import by.it_akademy.fitness.service.api.IProfileService;
 import by.it_akademy.fitness.service.api.IUserService;
 import by.it_akademy.fitness.storage.api.IProfileStorage;
 import by.it_akademy.fitness.storage.entity.Profile;
 import by.it_akademy.fitness.storage.entity.User;
+import by.it_akademy.fitness.util.EntityType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,10 +27,16 @@ import java.util.UUID;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ProfileService implements IProfileService {
+
+    private final String CREATED = "New user's profile was created";
+
+
     @Autowired
     private final IProfileStorage storage;
     @Autowired
     private final IUserService userService;
+
+    private final IAuditService auditService;
 
 
     @Override
@@ -36,7 +45,12 @@ public class ProfileService implements IProfileService {
 
         User currentUserProfile = userService.extractCurrentUserProfile(header);
 
-        return storage.save(ProfileBuilder
+        String mail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userService.loadCurrentUserByLogin(mail);
+
+
+
+        Profile profile = storage.save(ProfileBuilder
                 .create()
                 .setId(UUID.randomUUID())
                 .setDtCreate(Clock.systemUTC().millis())
@@ -49,6 +63,15 @@ public class ProfileService implements IProfileService {
                 .setLifestyle(dto.getActivity_type())
                 .setTargetWeight(dto.getTarget())
                 .build());
+
+        auditService.create(
+                user,
+                EntityType.PROFILE,
+                CREATED,
+                profile.getId().toString()
+        );
+
+        return profile;
     }
 
     @Override
@@ -64,11 +87,9 @@ public class ProfileService implements IProfileService {
     @Override
     @Transactional
     public Profile update(UUID id, Long dtUpdate, InputProfileDTO item, String header)throws LockException {
-        return null;
-    }
+        return null;}
 
     @Override
     public void delete(Profile profile) {
-
     }
 }

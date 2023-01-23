@@ -4,11 +4,14 @@ import by.it_akademy.fitness.exception.LockException;
 import by.it_akademy.fitness.idto.InputUserDTO;
 import by.it_akademy.fitness.builder.UserBuilder;
 import by.it_akademy.fitness.security.filter.JwtUtil;
+import by.it_akademy.fitness.service.api.IAuditService;
 import by.it_akademy.fitness.service.api.IUserService;
 import by.it_akademy.fitness.storage.api.IUserStorage;
 import by.it_akademy.fitness.storage.entity.User;
 import by.it_akademy.fitness.util.EStatus;
+import by.it_akademy.fitness.util.EntityType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.OptimisticLockException;
 import java.time.Clock;
 import java.util.List;
 import java.util.UUID;
@@ -27,15 +31,24 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserService implements IUserService, UserDetailsService {
 
+
+    private final String CREATED = "The User was created";
+
+    private final String UPDATED = "The user was updated";
+
+    private final String EDITED = "Value user's line was successfully updated";
+
+    private final String LOCK = "Editing forbidden";
+
+
     private final BCryptPasswordEncoder passwordEncoder;
 
     private final JwtUtil jwtUtil;
 
     private final IUserStorage userStorage;
-    //@Autowired
-    //private final RoleRepo roleRepo;
-    //@Autowired
-    //private final PasswordEncoder passwordncoder;
+
+    private final IAuditService auditService;
+
 
     @Override
     public UserDetails loadUserByLogin(String login) throws UsernameNotFoundException {
@@ -84,11 +97,42 @@ public class UserService implements IUserService, UserDetailsService {
     }
 
     @Override
+    @Transactional
     public User update(UUID id,
                        Long dtUpdate,
                        InputUserDTO item,
                        String header) throws LockException {
-        return null;
+
+        String login = extractCurrentToken(header);
+
+        String mail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = loadCurrentUserByLogin(mail);
+
+        User readedUser = read(id);
+
+        if (!readedUser.getUsername().equals(user.getLogin())) {
+            throw new LockException(LOCK);
+        }
+
+        if (!readedUser.getDtUpdate().equals(dtUpdate)) {
+            throw new OptimisticLockException(EDITED);
+        }
+
+        User updateUser = userStorage.save(UserBuilder
+                .create()
+                .setId(id)
+                .setDtCrate(readedUser.getDtCrate())
+                .setDtUpdate(Clock.systemUTC().millis())
+                .setUsername(item.getNick())
+                .setLogin(item.getMail())
+                .setPassword(passwordEncoder.encode(item.getPassword()))
+                .setRole("ROLE_USER")
+                .setStatus(EStatus.ACTIVE)
+                .build());
+
+        auditService.create(user, EntityType.USER, UPDATED, updateUser.getId().toString());
+
+        return updateUser;
     }
 
     @Override

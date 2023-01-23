@@ -30,39 +30,28 @@ public class ProductServlet {
     private final JwtUtil jwtUtil;
 
 
-   /* public ProductServlet(IProductService productService) {
-        this.service = productService;
-    }*/
-
-    @GetMapping("/id")////http://localhost:8080/api/v1/product/id + id param
-    protected ResponseEntity<Product> getById (@RequestParam(name = "id") UUID id){
-        return ResponseEntity.ok(service.read(id));
-    }
-
-
-    @GetMapping("")
-    protected ResponseEntity<List<? extends Product>> getList(){
-        return ResponseEntity.ok(service.get());
-    }
-
-
     @PostMapping
     protected ResponseEntity<Product> post(@RequestBody InputProductDTO idto, HttpServletRequest request) {
         final String authHeader = request.getHeader(AUTHORIZATION);
-        Product created = this.service.create(idto,authHeader);
+        Product created = this.service.create(idto, authHeader);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
-
-    @PutMapping
-    protected ResponseEntity<Product> doPut(@RequestParam UUID id,
-                                            @RequestParam(name = "dt_update") Long dt_update,
+    @GetMapping("")
+    protected ResponseEntity<List<? extends Product>> getList() {
+        return ResponseEntity.ok(service.get());
+    }
+    @PutMapping("/{uuid}/dt_update/{dt_update}")
+    protected ResponseEntity<Product> doPut(@PathVariable(name = "uuid") UUID id,
+                                            @PathVariable(name = "dt_update") Long dt_update,
                                             @RequestBody InputProductDTO idto,
                                             HttpServletRequest request) throws LockException {
         final String authHeader = request.getHeader(AUTHORIZATION);
-        /*LocalDateTime dtUpdate = LocalDateTime.ofInstant(
-                Instant.ofEpochMilli(dtUpdateRaw),
-                ZoneId.of("UTC")
-        );*/
-        return ResponseEntity.ok(this.service.update(id, dt_update, idto,authHeader));
+        return ResponseEntity.ok(this.service.update(id, dt_update, idto, authHeader));
+    }
+
+    //TODO NOT DEMANDED
+    @GetMapping("/id")////http://localhost:8080/api/v1/product/id + id param
+    protected ResponseEntity<Product> getById(@RequestParam(name = "id") UUID id) {
+        return ResponseEntity.ok(service.read(id));
     }
 }

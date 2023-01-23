@@ -35,12 +35,9 @@ public class UserServlet {
 
     @PostMapping("/login")
     public ResponseEntity<String> loginIn(@RequestBody InputUserDTO request ){
-
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getMail(), request.getPassword()));
-
         final UserDetails userDetails = service.loadUserByLogin(request.getMail());
-
         if (userDetails != null) {
             return ResponseEntity.ok(jwtUtil.generateToken(userDetails,request.getMail()));
         }

@@ -17,26 +17,26 @@ import java.util.UUID;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @RestController
-@RequestMapping("/api/v1/journal")
+@RequestMapping("/api/v1/profile")
 @RequiredArgsConstructor
 public class DiaryFoodServlet {
     @Autowired
     private final IDiaryFoodService service;
 
 
-    @PostMapping
+    @PostMapping("/{uuid_profile}/journal/food")
     protected ResponseEntity<DiaryFood> post(@RequestBody InputDiaryFoodDTO idto,
                                              HttpServletRequest request,
-                                             @RequestParam(name = "id") UUID id) throws LockException {
+                                             @PathVariable(name = "uuid_profile") UUID id) throws LockException {
 
         final String authHeader = request.getHeader(AUTHORIZATION);
         DiaryFood created = this.service.createWithParam(idto,authHeader,id);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
-    @GetMapping("")
-    protected ResponseEntity<List<? extends DiaryFood>> getList() {
-        return ResponseEntity.ok(service.get());
+    @GetMapping("/{uuid_profile}/journal/food")
+    protected ResponseEntity<List<? extends DiaryFood>> getList(@PathVariable(name = "uuid_profile") UUID id) {
+        return ResponseEntity.ok(service.getListOfLine(id));
     }
 
 }

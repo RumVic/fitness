@@ -21,15 +21,18 @@ public class ProfileServlet {
 
     private final IProfileService service;
 
-    @GetMapping()// //http://localhost:8080/api/v1/profile/id + id param
-    protected ResponseEntity<Profile> getById (@RequestParam(name = "id") UUID id){
-        return ResponseEntity.ok(service.read(id));
-    }
-
     @PostMapping
     protected ResponseEntity<Profile> post(@RequestBody InputProfileDTO idto, HttpServletRequest request) {
         final String authHeader = request.getHeader(AUTHORIZATION);
         Profile created = this.service.create(idto,authHeader);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
+    @GetMapping("/{uuid_profile}")
+    protected ResponseEntity<Profile> getById (@PathVariable(name = "uuid_profile") UUID id){
+        return ResponseEntity.ok(service.read(id));
+    }
+
+
+    
 }
+

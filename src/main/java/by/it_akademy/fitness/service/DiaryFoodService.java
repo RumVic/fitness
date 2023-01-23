@@ -26,7 +26,7 @@ import java.util.UUID;
 public class DiaryFoodService implements IDiaryFoodService {
 
     private final String CREATED = "Line in food journal was created";
-    private final String LOCK = "Editing forbidden";
+    private final String LOCK = "You can't create the line ";
 
     @Autowired
     private final IUserService userService;
@@ -50,7 +50,7 @@ public class DiaryFoodService implements IDiaryFoodService {
         Profile profile = profileService.read(uuid);
         Dish readedDish = serviceDish.read(dto.getDish().getId());
 
-        if (user.getId().equals(profile.getUser().getId())) {
+        if (!user.getId().equals(profile.getUser().getId())) {
                 throw new LockException(LOCK);
         }
 
@@ -75,6 +75,11 @@ public class DiaryFoodService implements IDiaryFoodService {
         );
 
         return diaryFood;
+    }
+
+    @Override
+    public List<DiaryFood> getListOfLine(UUID id) {
+        return storage.findByProfile(id);
     }
 
     @Override
