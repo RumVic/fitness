@@ -1,6 +1,6 @@
 package by.it_akademy.fitness.storage.entity;
 
-import by.it_akademy.fitness.util.EStatus;
+import by.it_akademy.fitness.util.enams.EStatus;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

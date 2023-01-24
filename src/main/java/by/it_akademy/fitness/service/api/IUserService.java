@@ -23,4 +23,5 @@ public interface IUserService extends IService<User, InputUserDTO, OutputUserDTO
 
     User loadCurrentUserByLogin(String login);
 
+
 }

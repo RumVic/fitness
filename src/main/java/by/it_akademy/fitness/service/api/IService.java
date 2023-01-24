@@ -1,8 +1,9 @@
 package by.it_akademy.fitness.service.api;
 
 import by.it_akademy.fitness.exception.LockException;
+import by.it_akademy.fitness.odto.OutPage;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface IService<ENTITY, IDTO, ODTO> {
@@ -11,7 +12,7 @@ public interface IService<ENTITY, IDTO, ODTO> {
 
     ENTITY read(UUID id);
 
-    List<ENTITY> get();
+    OutPage get(Pageable pageable);
 
     ENTITY update(UUID id, Long dtUpdate, IDTO item,String header) throws LockException;
 

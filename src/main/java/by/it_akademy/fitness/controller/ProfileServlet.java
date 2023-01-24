@@ -22,10 +22,10 @@ public class ProfileServlet {
     private final IProfileService service;
 
     @PostMapping
-    protected ResponseEntity<Profile> post(@RequestBody InputProfileDTO idto, HttpServletRequest request) {
+    protected ResponseEntity<String> post(@RequestBody InputProfileDTO idto, HttpServletRequest request) {
         final String authHeader = request.getHeader(AUTHORIZATION);
         Profile created = this.service.create(idto,authHeader);
-        return new ResponseEntity<>(created, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
     @GetMapping("/{uuid_profile}")
     protected ResponseEntity<Profile> getById (@PathVariable(name = "uuid_profile") UUID id){

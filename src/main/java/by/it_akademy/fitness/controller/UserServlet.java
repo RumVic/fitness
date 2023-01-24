@@ -11,7 +11,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -26,6 +25,7 @@ public class UserServlet {
     private final UserService service;
     @Autowired
     private final JwtUtil jwtUtil;
+
 
     @PostMapping("/registration")
     public ResponseEntity<String> registration(@RequestBody InputUserDTO inputUserDTO) {
@@ -48,7 +48,6 @@ public class UserServlet {
         public ResponseEntity<User> getMe(HttpServletRequest request) {
         final String authHeader = request.getHeader(AUTHORIZATION);
         return ResponseEntity.ok(service.getMyInfo(authHeader));
-
     }
 
 }

@@ -2,7 +2,7 @@ package by.it_akademy.fitness.builder;
 
 import by.it_akademy.fitness.storage.entity.Audit;
 import by.it_akademy.fitness.storage.entity.User;
-import by.it_akademy.fitness.util.EntityType;
+import by.it_akademy.fitness.util.enams.EntityType;
 
 import java.util.UUID;
 

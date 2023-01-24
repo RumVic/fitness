@@ -3,10 +3,15 @@ package by.it_akademy.fitness.controller;
 
 import by.it_akademy.fitness.exception.LockException;
 import by.it_akademy.fitness.idto.InputDishDTO;
+import by.it_akademy.fitness.odto.OutPage;
+import by.it_akademy.fitness.odto.OutputDishDTO;
+import by.it_akademy.fitness.odto.OutputProductDTO;
 import by.it_akademy.fitness.service.api.IDishService;
 import by.it_akademy.fitness.storage.entity.Dish;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +24,7 @@ import java.util.UUID;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @RestController
-@RequestMapping("/api/v1/recipe")//http://localhost:8080/recipe
+@RequestMapping("/api/v1/recipe")
 @RequiredArgsConstructor
 public class DishServlet {
 
@@ -34,8 +39,11 @@ public class DishServlet {
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
     @GetMapping
-    protected ResponseEntity<List<? extends Dish>> getList() {
-        return ResponseEntity.ok(service.get());
+    protected ResponseEntity<OutPage> getList(@RequestParam int page,
+                                              @RequestParam int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        OutPage<OutputDishDTO> dish = service.get(pageable);
+        return new ResponseEntity<>(dish,HttpStatus.OK);
     }
 
     @PutMapping

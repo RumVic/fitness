@@ -3,22 +3,23 @@ package by.it_akademy.fitness.service;
 import by.it_akademy.fitness.builder.ProfileBuilder;
 import by.it_akademy.fitness.exception.LockException;
 import by.it_akademy.fitness.idto.InputProfileDTO;
+import by.it_akademy.fitness.odto.OutPage;
 import by.it_akademy.fitness.service.api.IAuditService;
 import by.it_akademy.fitness.service.api.IProfileService;
 import by.it_akademy.fitness.service.api.IUserService;
 import by.it_akademy.fitness.storage.api.IProfileStorage;
 import by.it_akademy.fitness.storage.entity.Profile;
 import by.it_akademy.fitness.storage.entity.User;
-import by.it_akademy.fitness.util.EntityType;
+import by.it_akademy.fitness.util.enams.EntityType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
-import java.util.List;
 import java.util.UUID;
 
 
@@ -79,8 +80,13 @@ public class ProfileService implements IProfileService {
         return storage.findById(id).orElseThrow();
     }
 
-    @Override
+ /*   @Override TODO
     public List<Profile> get() {
+        return null;
+    }*/
+
+    @Override
+    public OutPage get(Pageable pageable) {
         return null;
     }
 

@@ -3,6 +3,9 @@ package by.it_akademy.fitness.service;
 import by.it_akademy.fitness.exception.LockException;
 import by.it_akademy.fitness.idto.InputProductDTO;
 import by.it_akademy.fitness.builder.ProductBuilder;
+import by.it_akademy.fitness.mappers.ProductMapper;
+import by.it_akademy.fitness.odto.OutputProductDTO;
+import by.it_akademy.fitness.odto.OutPage;
 import by.it_akademy.fitness.security.filter.JwtUtil;
 import by.it_akademy.fitness.service.api.IAuditService;
 import by.it_akademy.fitness.service.api.IProductService;
@@ -10,16 +13,17 @@ import by.it_akademy.fitness.service.api.IUserService;
 import by.it_akademy.fitness.storage.api.IProductStorage;
 import by.it_akademy.fitness.storage.entity.Product;
 import by.it_akademy.fitness.storage.entity.User;
-import by.it_akademy.fitness.util.EntityType;
+import by.it_akademy.fitness.util.enams.EntityType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.OptimisticLockException;
 import java.time.Clock;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -42,6 +46,8 @@ public class ProductService implements IProductService {
     private final JwtUtil jwtUtil;
     @Autowired
     private final IAuditService auditService;
+    @Autowired
+    private final ProductMapper productMapper;
 
 
     @Override
@@ -83,8 +89,9 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<Product> get() {
-        return storage.findAll();
+    public OutPage<OutputProductDTO> get(Pageable pag) {
+        Page<Product> pageOfProduct = storage.findAll(pag);
+        return productMapper.map(pageOfProduct);
     }
 
     @Override
@@ -143,6 +150,23 @@ public class ProductService implements IProductService {
         if (idto == null) {
             throw new IllegalStateException("You didn't pass the product");
         }
+        if (idto.getTitle() == null) {
+            throw new IllegalStateException("You didn't pass the Title");
+        }
+        if (idto.getFats() < 0 || idto.getFats() == 0) {
+            throw new IllegalStateException("You didn't pass the value of Fats");
+        }
+        if (idto.getCarbohydrates() < 0 || idto.getCarbohydrates() == 0) {
+            throw new IllegalStateException("You didn't pass the value of Carbohydrates");
+        }
+        if (idto.getProteins()<0 || idto.getProteins() == 0){
+            throw new IllegalStateException("You didn't pass the value of Proteins");
+        }
+        if (idto.getCalories()<0 || idto.getCalories() ==0){
+            throw new IllegalStateException("You didn't pass the value of Calories");
+        }
+        if (idto.getWeight()<0 || idto.getWeight()==0){
+            throw new IllegalStateException("You didn't pass the value of Calories");
+        }
     }
-
 }

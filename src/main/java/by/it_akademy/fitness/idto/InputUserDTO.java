@@ -1,8 +1,11 @@
 package by.it_akademy.fitness.idto;
 
-public class InputUserDTO {
+import org.springframework.lang.NonNull;
 
+public class InputUserDTO {
+    @NonNull
     private String mail;
+    @NonNull
     private String nick;
     private String password;
 

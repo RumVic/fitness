@@ -3,14 +3,16 @@ package by.it_akademy.fitness.service;
 import by.it_akademy.fitness.exception.LockException;
 import by.it_akademy.fitness.idto.InputUserDTO;
 import by.it_akademy.fitness.builder.UserBuilder;
+import by.it_akademy.fitness.odto.OutPage;
 import by.it_akademy.fitness.security.filter.JwtUtil;
 import by.it_akademy.fitness.service.api.IAuditService;
 import by.it_akademy.fitness.service.api.IUserService;
 import by.it_akademy.fitness.storage.api.IUserStorage;
 import by.it_akademy.fitness.storage.entity.User;
-import by.it_akademy.fitness.util.EStatus;
-import by.it_akademy.fitness.util.EntityType;
+import by.it_akademy.fitness.util.enams.EStatus;
+import by.it_akademy.fitness.util.enams.EntityType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.OptimisticLockException;
 import java.time.Clock;
-import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -48,6 +49,7 @@ public class UserService implements IUserService, UserDetailsService {
     private final IUserStorage userStorage;
 
     private final IAuditService auditService;
+
 
 
     @Override
@@ -91,9 +93,14 @@ public class UserService implements IUserService, UserDetailsService {
         return userStorage.findById(id).orElseThrow();
     }
 
-    @Override
+   /* @Override
     public List<User> get() {
         return userStorage.findAll();
+    }*/
+
+    @Override
+    public OutPage get(Pageable pageable) {
+        return null;
     }
 
     @Override

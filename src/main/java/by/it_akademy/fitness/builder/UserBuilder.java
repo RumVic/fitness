@@ -1,7 +1,7 @@
 package by.it_akademy.fitness.builder;
 
 import by.it_akademy.fitness.storage.entity.User;
-import by.it_akademy.fitness.util.EStatus;
+import by.it_akademy.fitness.util.enams.EStatus;
 
 import java.util.UUID;
 

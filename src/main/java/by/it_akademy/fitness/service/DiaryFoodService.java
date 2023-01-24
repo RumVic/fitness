@@ -3,20 +3,20 @@ package by.it_akademy.fitness.service;
 import by.it_akademy.fitness.exception.LockException;
 import by.it_akademy.fitness.idto.InputDiaryFoodDTO;
 import by.it_akademy.fitness.builder.DiaryFoodBuilder;
-import by.it_akademy.fitness.idto.InputProfileDTO;
+import by.it_akademy.fitness.odto.OutPage;
 import by.it_akademy.fitness.service.api.*;
 import by.it_akademy.fitness.storage.api.IDiaryFoodStorage;
 import by.it_akademy.fitness.storage.entity.*;
-import by.it_akademy.fitness.util.EntityType;
+import by.it_akademy.fitness.util.enams.EntityType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
 import java.util.List;
-import java.util.PrimitiveIterator;
 import java.util.UUID;
 
 
@@ -87,9 +87,14 @@ public class DiaryFoodService implements IDiaryFoodService {
         return storage.findById(id).orElseThrow();
     }
 
-    @Override
+    /*@Override
     public List<DiaryFood> get() {
         return storage.findAll();
+    }*/
+
+    @Override
+    public OutPage get(Pageable pageable) {
+        return null;
     }
 
     @Override

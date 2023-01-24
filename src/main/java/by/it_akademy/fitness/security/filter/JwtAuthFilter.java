@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.SignatureException;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
@@ -46,6 +47,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         jwtToken = authHeader.substring(7);
+
+        jwtUtil.preValidateToken(jwtToken);
+
         email = jwtUtil.extractUsername(jwtToken);
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails myUser = userStorage.findByLogin(email);

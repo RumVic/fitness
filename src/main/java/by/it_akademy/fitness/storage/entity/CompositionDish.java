@@ -83,11 +83,11 @@ public class CompositionDish {
         this.dish = dish;
     }
 
-    public Product getProductList() {
+    public Product getProduct() {
         return product;
     }
 
-    public void setProductList(Product product) {
+    public void setProduct(Product product) {
         this.product = product;
     }
 

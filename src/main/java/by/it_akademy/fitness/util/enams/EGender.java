@@ -1,4 +1,4 @@
-package by.it_akademy.fitness.util;
+package by.it_akademy.fitness.util.enams;
 
 public enum EGender {
 

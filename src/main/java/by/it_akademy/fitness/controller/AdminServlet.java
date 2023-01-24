@@ -37,10 +37,10 @@ public class AdminServlet {
 
         //TODO change response - it have not sent jwt token - sent it through email
     }
-    @GetMapping("/users")
+    /*@GetMapping("/users")
     public ResponseEntity<? extends List<User>> getUsers(HttpServletRequest request){
         return ResponseEntity.ok(service.get());
-    }
+    }*/
     @GetMapping("/users/{uuid}")
     public ResponseEntity<User> getUserById(@PathVariable(name = "uuid") UUID uuid){
         return ResponseEntity.ok(service.read(uuid));

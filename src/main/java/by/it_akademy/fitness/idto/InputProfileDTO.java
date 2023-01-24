@@ -1,7 +1,7 @@
 package by.it_akademy.fitness.idto;
 
-import by.it_akademy.fitness.util.EGender;
-import by.it_akademy.fitness.util.ELifestyle;
+import by.it_akademy.fitness.util.enams.EGender;
+import by.it_akademy.fitness.util.enams.ELifestyle;
 
 import java.time.LocalDate;
 

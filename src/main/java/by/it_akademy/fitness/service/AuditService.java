@@ -5,7 +5,7 @@ import by.it_akademy.fitness.service.api.IAuditService;
 import by.it_akademy.fitness.storage.api.IAuditStorage;
 import by.it_akademy.fitness.storage.entity.Audit;
 import by.it_akademy.fitness.storage.entity.User;
-import by.it_akademy.fitness.util.EntityType;
+import by.it_akademy.fitness.util.enams.EntityType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

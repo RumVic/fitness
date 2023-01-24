@@ -5,18 +5,21 @@ import by.it_akademy.fitness.exception.LockException;
 import by.it_akademy.fitness.idto.InputComDishDTO;
 import by.it_akademy.fitness.idto.InputDishDTO;
 import by.it_akademy.fitness.builder.DishBuilder;
+import by.it_akademy.fitness.mappers.DishMapper;
+import by.it_akademy.fitness.odto.OutPage;
 import by.it_akademy.fitness.service.api.IAuditService;
 import by.it_akademy.fitness.service.api.ICompositionDishService;
 import by.it_akademy.fitness.service.api.IDishService;
 import by.it_akademy.fitness.service.api.IUserService;
 import by.it_akademy.fitness.storage.api.IDishStorage;
-import by.it_akademy.fitness.storage.api.IUserStorage;
 import by.it_akademy.fitness.storage.entity.CompositionDish;
 import by.it_akademy.fitness.storage.entity.Dish;
 import by.it_akademy.fitness.storage.entity.User;
-import by.it_akademy.fitness.util.EntityType;
+import by.it_akademy.fitness.util.enams.EntityType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,6 +50,8 @@ public class DishService implements IDishService {
     private final ICompositionDishService service;
 
     private final IAuditService auditService;
+
+    private final DishMapper dishMapper;
 
    /* public DishService(IDishStorage dishStorage, ICompositionDishService service) {
         this.storage = dishStorage;
@@ -90,9 +95,12 @@ public class DishService implements IDishService {
         return storage.findById(uuid).orElseThrow();
     }
 
+
+
     @Override
-    public List<Dish> get() {
-        return storage.findAll();
+    public OutPage get(Pageable pageable) {
+        Page<Dish> dishPage = storage.findAll(pageable);
+        return dishMapper.map(dishPage) ;
     }
 
     @Override

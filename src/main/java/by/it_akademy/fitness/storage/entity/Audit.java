@@ -1,6 +1,6 @@
 package by.it_akademy.fitness.storage.entity;
 
-import by.it_akademy.fitness.util.EntityType;
+import by.it_akademy.fitness.util.enams.EntityType;
 
 import javax.persistence.*;
 import java.util.Objects;

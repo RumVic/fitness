@@ -20,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
+import javax.servlet.http.HttpServletResponse;
+
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
@@ -31,7 +33,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        /*  ((ExpressionUrlAuthorizationConfigurer.AuthorizedUrl)*/
+
         http
                 .csrf().disable()
                 .authorizeRequests()
@@ -54,7 +56,11 @@ public class SecurityConfig {
                 //and this is the behavior that we don't want to add
                 .and()
                 .authenticationProvider(authenticationProvider())
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);//there we want to add filter before another filter(jwtAuthFilter before
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling().authenticationEntryPoint((request, response, authException) ->
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+                        authException.getMessage()));
+        //there we want to add filter before another filter(jwtAuthFilter before
         //there we told Spring , hey go ahead and use this filter before authentication the User
         //because (in jwtAuthFilter we are checking the JWT and if everything is fine what we do - we
         //set, or we update the context of the security context holder,so we want to execute
