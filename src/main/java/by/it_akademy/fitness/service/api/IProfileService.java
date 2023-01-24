@@ -7,4 +7,6 @@ import java.util.UUID;
 
 public interface IProfileService extends IService<Profile, InputProfileDTO, OutputProfileDTO>{
 
+     OutputProfileDTO readById(UUID id);
+
 }

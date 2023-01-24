@@ -3,7 +3,9 @@ package by.it_akademy.fitness.service;
 import by.it_akademy.fitness.builder.ProfileBuilder;
 import by.it_akademy.fitness.exception.LockException;
 import by.it_akademy.fitness.idto.InputProfileDTO;
+import by.it_akademy.fitness.mappers.ProfileMapper;
 import by.it_akademy.fitness.odto.OutPage;
+import by.it_akademy.fitness.odto.OutputProfileDTO;
 import by.it_akademy.fitness.service.api.IAuditService;
 import by.it_akademy.fitness.service.api.IProfileService;
 import by.it_akademy.fitness.service.api.IUserService;
@@ -38,6 +40,8 @@ public class ProfileService implements IProfileService {
     private final IUserService userService;
 
     private final IAuditService auditService;
+
+    private final ProfileMapper profileMapper;
 
 
     @Override
@@ -76,15 +80,15 @@ public class ProfileService implements IProfileService {
     }
 
     @Override
-    public Profile read(UUID id) {
-        return storage.findById(id).orElseThrow();
+    public OutputProfileDTO readById(UUID id) {
+        Profile profile = storage.findById(id).orElseThrow();
+        return profileMapper.map(profile);
     }
 
- /*   @Override TODO
-    public List<Profile> get() {
+    @Override
+    public Profile read(UUID id) {
         return null;
-    }*/
-
+    }
     @Override
     public OutPage get(Pageable pageable) {
         return null;

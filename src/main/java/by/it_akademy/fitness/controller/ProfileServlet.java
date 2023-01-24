@@ -1,6 +1,8 @@
 package by.it_akademy.fitness.controller;
 
 import by.it_akademy.fitness.idto.InputProfileDTO;
+import by.it_akademy.fitness.odto.OutputProductDTO;
+import by.it_akademy.fitness.odto.OutputProfileDTO;
 import by.it_akademy.fitness.service.api.IProfileService;
 import by.it_akademy.fitness.storage.entity.Profile;
 import lombok.RequiredArgsConstructor;
@@ -19,17 +21,18 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RequiredArgsConstructor
 public class ProfileServlet {
 
+    private final String CREATED = "New Profile was successfully created ";
     private final IProfileService service;
 
     @PostMapping
     protected ResponseEntity<String> post(@RequestBody InputProfileDTO idto, HttpServletRequest request) {
         final String authHeader = request.getHeader(AUTHORIZATION);
         Profile created = this.service.create(idto,authHeader);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(CREATED,HttpStatus.CREATED);
     }
     @GetMapping("/{uuid_profile}")
-    protected ResponseEntity<Profile> getById (@PathVariable(name = "uuid_profile") UUID id){
-        return ResponseEntity.ok(service.read(id));
+    protected ResponseEntity<OutputProfileDTO> getById (@PathVariable(name = "uuid_profile") UUID id){
+        return ResponseEntity.ok(service.readById(id));
     }
 
 

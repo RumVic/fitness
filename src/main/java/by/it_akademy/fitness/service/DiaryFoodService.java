@@ -3,13 +3,16 @@ package by.it_akademy.fitness.service;
 import by.it_akademy.fitness.exception.LockException;
 import by.it_akademy.fitness.idto.InputDiaryFoodDTO;
 import by.it_akademy.fitness.builder.DiaryFoodBuilder;
+import by.it_akademy.fitness.mappers.DiaryFoodMapper;
 import by.it_akademy.fitness.odto.OutPage;
+import by.it_akademy.fitness.odto.OutputDiaryFoodDTO;
 import by.it_akademy.fitness.service.api.*;
 import by.it_akademy.fitness.storage.api.IDiaryFoodStorage;
 import by.it_akademy.fitness.storage.entity.*;
 import by.it_akademy.fitness.util.enams.EntityType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -38,6 +41,9 @@ public class DiaryFoodService implements IDiaryFoodService {
     private final IAuditService auditService;
 
     private final IProfileService profileService;
+
+
+    private final DiaryFoodMapper diaryFoodMapper;
 
 
     @Override
@@ -77,20 +83,23 @@ public class DiaryFoodService implements IDiaryFoodService {
         return diaryFood;
     }
 
-    @Override
-    public List<DiaryFood> getListOfLine(UUID id) {
-        return storage.findByProfile(id);
-    }
+
 
     @Override
     public DiaryFood read(UUID id) {
         return storage.findById(id).orElseThrow();
     }
 
-    /*@Override
-    public List<DiaryFood> get() {
-        return storage.findAll();
-    }*/
+    @Override
+    public OutPage<OutputDiaryFoodDTO> get(Pageable pageable, UUID id) {
+        Page<DiaryFood> page = storage.findAllByProfile(pageable,id);
+        return diaryFoodMapper.map(page);
+    }
+
+    @Override
+    public List<DiaryFood> getListOfLine(UUID id) {
+        return null; //storage.findByProfile(id);
+    }
 
     @Override
     public OutPage get(Pageable pageable) {
