@@ -56,10 +56,10 @@ public class DishServlet {
     }
 
     //TODO NOT DEMANDED
-    @GetMapping("/id")//http://localhost:8080/recipe/id + id param
+  /*  @GetMapping("/id")//http://localhost:8080/recipe/id + id param
     protected ResponseEntity<Dish> getById(@RequestParam(name = "id") UUID id) {
         return ResponseEntity.ok(service.read(id));
-    }
+    }*/
 
 }
 

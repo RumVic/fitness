@@ -3,15 +3,19 @@ package by.it_akademy.fitness.service;
 import by.it_akademy.fitness.exception.LockException;
 import by.it_akademy.fitness.idto.InputUserDTO;
 import by.it_akademy.fitness.builder.UserBuilder;
+import by.it_akademy.fitness.mappers.UserMapper;
 import by.it_akademy.fitness.odto.OutPage;
+import by.it_akademy.fitness.odto.OutputUserDTO;
 import by.it_akademy.fitness.security.filter.JwtUtil;
 import by.it_akademy.fitness.service.api.IAuditService;
 import by.it_akademy.fitness.service.api.IUserService;
 import by.it_akademy.fitness.storage.api.IUserStorage;
+import by.it_akademy.fitness.storage.entity.Product;
 import by.it_akademy.fitness.storage.entity.User;
 import by.it_akademy.fitness.util.enams.EStatus;
 import by.it_akademy.fitness.util.enams.EntityType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -49,6 +53,8 @@ public class UserService implements IUserService, UserDetailsService {
     private final IUserStorage userStorage;
 
     private final IAuditService auditService;
+
+    private final UserMapper userMapper;
 
 
 
@@ -89,19 +95,24 @@ public class UserService implements IUserService, UserDetailsService {
     }
 
     @Override
-    public User read(UUID id) {
-        return userStorage.findById(id).orElseThrow();
+    public OutputUserDTO readInput(UUID id) {
+        User user = userStorage.findById(id).orElseThrow();
+        return userMapper.onceMap(user);
     }
 
-   /* @Override
-    public List<User> get() {
-        return userStorage.findAll();
-    }*/
+    @Override
+    public User read(UUID id) {
+        User user = userStorage.findById(id).orElseThrow();
+        return user;
+    }
+
 
     @Override
     public OutPage get(Pageable pageable) {
-        return null;
+        Page<User> page = userStorage.findAll(pageable);
+        return userMapper.map(page);
     }
+
 
     @Override
     @Transactional
@@ -153,9 +164,10 @@ public class UserService implements IUserService, UserDetailsService {
     }
 
     @Override
-    public User getMyInfo(String header) {
+    public OutputUserDTO getMyInfo(String header) {
         String currentLogin = extractCurrentToken(header);
-        return userStorage.findByLogin(currentLogin);
+        User user = userStorage.findByLogin(currentLogin);
+        return userMapper.onceMap(user);
     }
 
     public String extractCurrentToken(String authHeader) {

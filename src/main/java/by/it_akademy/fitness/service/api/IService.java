@@ -10,7 +10,7 @@ public interface IService<ENTITY, IDTO, ODTO> {
 
     ENTITY create(IDTO dto,String header);
 
-    ENTITY read(UUID id);
+    ENTITY read (UUID id);
 
     OutPage get(Pageable pageable);
 

@@ -64,8 +64,8 @@ public class ProductServlet {
     }
 
     //TODO NOT DEMANDED
-    @GetMapping("/id")
+   /* @GetMapping("/id")
     protected ResponseEntity<Product> getById(@RequestParam(name = "id") UUID id) {
         return ResponseEntity.ok(service.read(id));
-    }
+    }*/
 }

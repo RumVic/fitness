@@ -2,6 +2,10 @@ package by.it_akademy.fitness.security.config;
 
 import by.it_akademy.fitness.storage.api.IUserStorage;
 import by.it_akademy.fitness.security.filter.JwtAuthFilter;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,7 +36,7 @@ public class SecurityConfig {
 
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception  {
 
         http
                 .csrf().disable()
@@ -57,9 +61,9 @@ public class SecurityConfig {
                 .and()
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling().authenticationEntryPoint((request, response, authException) ->
+                /*.exceptionHandling().authenticationEntryPoint((request, response, authException) ->
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
-                        authException.getMessage()));
+                        authException.getMessage()))*/;
         //there we want to add filter before another filter(jwtAuthFilter before
         //there we told Spring , hey go ahead and use this filter before authentication the User
         //because (in jwtAuthFilter we are checking the JWT and if everything is fine what we do - we

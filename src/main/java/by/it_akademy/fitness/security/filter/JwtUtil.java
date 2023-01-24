@@ -34,7 +34,8 @@ public class JwtUtil {
         return claimsResolver.apply(claims);
     }
 
-    private Claims extractAllClaims(String token) {
+    private Claims extractAllClaims(String token) throws SignatureException, MalformedJwtException,
+            ExpiredJwtException,UnsupportedJwtException,IllegalArgumentException {
 
         /* return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();*/
 
@@ -83,7 +84,10 @@ public class JwtUtil {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    public boolean preValidateToken(String token) throws IOException {
+    public boolean preValidateToken(String token) throws
+                                                    SignatureException,
+                                                    MalformedJwtException,
+                                                    ExpiredJwtException,UnsupportedJwtException,IllegalArgumentException {
         try {
             Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
             return true;
@@ -100,4 +104,4 @@ public class JwtUtil {
         }
         return false;
     }
-  }
+}

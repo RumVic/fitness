@@ -1,9 +1,9 @@
 package by.it_akademy.fitness.controller;
 
 import by.it_akademy.fitness.idto.InputUserDTO;
+import by.it_akademy.fitness.odto.OutputUserDTO;
 import by.it_akademy.fitness.security.filter.JwtUtil;
 import by.it_akademy.fitness.service.UserService;
-import by.it_akademy.fitness.storage.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +45,7 @@ public class UserServlet {
     }
 
     @GetMapping("/me")
-        public ResponseEntity<User> getMe(HttpServletRequest request) {
+        public ResponseEntity<OutputUserDTO> getMe(HttpServletRequest request) {
         final String authHeader = request.getHeader(AUTHORIZATION);
         return ResponseEntity.ok(service.getMyInfo(authHeader));
     }

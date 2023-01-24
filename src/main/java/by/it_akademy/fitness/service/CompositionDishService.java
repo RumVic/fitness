@@ -72,15 +72,14 @@ public class CompositionDishService implements ICompositionDishService {
         return storage.findById(id).orElseThrow();
     }
 
-    /*@Override
-    public List<CompositionDish> get() {
-        return null;
-    }*/
-
     @Override
     public OutPage get(Pageable pageable) {
         return null;
     }
+    /*@Override
+    public List<CompositionDish> get() {
+        return null;
+    }*/
 
     @Override
     public List<CompositionDish> update(List<InputComDishDTO> item, UUID idDish) {

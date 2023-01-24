@@ -89,6 +89,7 @@ public class ProfileService implements IProfileService {
     public Profile read(UUID id) {
         return null;
     }
+
     @Override
     public OutPage get(Pageable pageable) {
         return null;
