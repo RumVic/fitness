@@ -2,13 +2,10 @@ package by.it_akademy.fitness.exception;
 
 
 import by.it_akademy.fitness.odto.OutputResponseError;
-import by.it_akademy.fitness.security.costom.JwtAuthenticationEntryPoint;
 import by.it_akademy.fitness.security.costom.JwtAuthenticationException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import org.springframework.beans.TypeMismatchException;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,7 +18,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -50,11 +46,11 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(LockException.class)
-    public ResponseEntity<SingleErrorResponse> processingException (LockException l){
-        SingleErrorResponse response = new SingleErrorResponse();
-        response.setLogref("error");
-        response.setMessage(l.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> processingException (LockException l){
+        //SingleErrorResponse response = new SingleErrorResponse();
+        //response.setLogref("error");
+        //response.setMessage(l.getMessage());
+        return new ResponseEntity<>(l.getMessage(), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(IllegalStateException.class)

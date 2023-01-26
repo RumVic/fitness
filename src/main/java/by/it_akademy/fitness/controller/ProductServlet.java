@@ -32,7 +32,9 @@ public class ProductServlet {
     @Autowired
     private final JwtUtil jwtUtil;
 
-    private final String CREATED = "The Product was added to library";
+    private final String CREATED = "The Product was successfully added to library";
+
+    private final String UPDATED = "The Product was successfully updated ";
 
 
     @PostMapping
@@ -55,12 +57,13 @@ public class ProductServlet {
     }
 
     @PutMapping("/{uuid}/dt_update/{dt_update}")
-    protected ResponseEntity<Product> doPut(@PathVariable(name = "uuid") UUID id,
+    protected ResponseEntity<String> doPut(@PathVariable(name = "uuid") UUID id,
                                             @PathVariable(name = "dt_update") Long dt_update,
                                             @RequestBody @Valid InputProductDTO idto,
                                             HttpServletRequest request) throws LockException {
         final String authHeader = request.getHeader(AUTHORIZATION);
-        return ResponseEntity.ok(service.update(id, dt_update, idto, authHeader));
+        service.update(id, dt_update, idto, authHeader);
+        return ResponseEntity.ok(UPDATED);
     }
 
     //TODO NOT DEMANDED

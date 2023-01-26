@@ -31,12 +31,16 @@ public class DishServlet {
     @Autowired
     private final IDishService service;
 
+    private final String CREATED = "The recipe was successfully added to  the library";
+
+    private final String UPDATED = "The recipe was successfully updated";
+
 
     @PostMapping
-    protected ResponseEntity<Dish> post(@RequestBody InputDishDTO idto , HttpServletRequest request) {
+    protected ResponseEntity<String> post(@RequestBody InputDishDTO idto , HttpServletRequest request) {
         final String authHeader = request.getHeader(AUTHORIZATION);
         Dish created = this.service.create(idto,authHeader);
-        return new ResponseEntity<>(created, HttpStatus.CREATED);
+        return new ResponseEntity<>(CREATED, HttpStatus.CREATED);
     }
     @GetMapping
     protected ResponseEntity<OutPage> getList(@RequestParam int page,
@@ -47,12 +51,13 @@ public class DishServlet {
     }
 
     @PutMapping
-    protected ResponseEntity<Dish> doPut(@RequestParam UUID id,
+    protected ResponseEntity<String> doPut(@RequestParam UUID id,
                                          @RequestParam(name = "dt_update") Long dt_update,
                                          @RequestBody InputDishDTO idto,
                                          HttpServletRequest request) throws LockException {
         final String authHeader = request.getHeader(AUTHORIZATION);
-        return ResponseEntity.ok(this.service.update(id, dt_update, idto,authHeader));
+        service.update(id, dt_update, idto,authHeader);
+        return new ResponseEntity<>(UPDATED,HttpStatus.OK);
     }
 
     //TODO NOT DEMANDED

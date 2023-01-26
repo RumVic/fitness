@@ -1,12 +1,15 @@
 package by.it_akademy.fitness.idto;
 
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class InputDishDTO {
-
+    @NotNull
     private String title;
 
+    @NotEmpty
     private List<InputComDishDTO> comDishDTO;
 
     public InputDishDTO() {
