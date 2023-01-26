@@ -39,8 +39,6 @@ public class AdminServlet {
     public ResponseEntity<String> registrationByAdmin(@RequestBody @Valid InputUserDTO inputUserDTO) {
         UserDetails created = this.service.createNewUser(inputUserDTO);
         return ResponseEntity.ok(jwtUtil.generateToken(created, inputUserDTO.getMail()));
-
-        //TODO change response - it have not sent jwt token - sent it through email
     }
 
     @GetMapping("/users")
@@ -48,9 +46,7 @@ public class AdminServlet {
                                             @RequestParam int size,
                                             @RequestParam int page) {
         Pageable pageable = PageRequest.of(page, size);
-
         return ResponseEntity.ok(service.get(pageable));
-
     }
 
     @GetMapping("/users/{uuid}")

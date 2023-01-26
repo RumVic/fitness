@@ -1,6 +1,10 @@
 package by.it_akademy.fitness.service;
 
 import by.it_akademy.fitness.builder.AuditBuilder;
+import by.it_akademy.fitness.mappers.AuditMapper;
+import by.it_akademy.fitness.odto.OutPage;
+import by.it_akademy.fitness.odto.OutputAuditDTO;
+import by.it_akademy.fitness.odto.OutputProductDTO;
 import by.it_akademy.fitness.service.api.IAuditService;
 import by.it_akademy.fitness.storage.api.IAuditStorage;
 import by.it_akademy.fitness.storage.entity.Audit;
@@ -8,6 +12,8 @@ import by.it_akademy.fitness.storage.entity.User;
 import by.it_akademy.fitness.util.enams.EntityType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +27,8 @@ import java.util.UUID;
 public class AuditService implements IAuditService {
     @Autowired
     private final IAuditStorage storage;
+
+    private final AuditMapper auditMapper;
 
 
     @Override
@@ -43,15 +51,16 @@ public class AuditService implements IAuditService {
                         .build());
     }
 
-    @Override
-    public List<Audit> get() {
-        return storage.findAll();
+
+    public OutPage<OutputAuditDTO> get(Pageable pag) {
+        Page<Audit> auditPage = storage.findAll(pag);
+        return auditMapper.map(auditPage);
     }
 
     @Override
-    public List<Audit> getById(String uuid) {
-        //return storage.findById(uuid).orElseThrow();
-        return storage.findByUid(uuid);
+    public List<OutputAuditDTO> getById(String uuid) {
+        List<Audit> audits = storage.findByUid(uuid);
+        return auditMapper.onceMap(audits);
     }
 
     @Override

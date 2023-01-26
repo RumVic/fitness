@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class InputDishDTO {
-    @NotNull
+    @NotNull //javax validation constraint
     private String title;
 
     @NotEmpty

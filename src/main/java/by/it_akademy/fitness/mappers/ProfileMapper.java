@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProfileMapper {
 
-    public OutputProfileDTO map(Profile profiles){
+    public OutputProfileDTO map(Profile profiles) {
 
         OutputProfileDTO profileDTO = new OutputProfileDTO();
 

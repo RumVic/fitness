@@ -11,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -30,22 +31,22 @@ public class UserServlet {
     @PostMapping("/registration")
     public ResponseEntity<String> registration(@RequestBody InputUserDTO inputUserDTO) {
         UserDetails created = this.service.createNewUser(inputUserDTO);
-        return ResponseEntity.ok(jwtUtil.generateToken(created,inputUserDTO.getMail()));
+        return ResponseEntity.ok(jwtUtil.generateToken(created, inputUserDTO.getMail()));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginIn(@RequestBody InputUserDTO request ){
+    public ResponseEntity<String> loginIn(@RequestBody InputUserDTO request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getMail(), request.getPassword()));
         final UserDetails userDetails = service.loadUserByLogin(request.getMail());
         if (userDetails != null) {
-            return ResponseEntity.ok(jwtUtil.generateToken(userDetails,request.getMail()));
+            return ResponseEntity.ok(jwtUtil.generateToken(userDetails, request.getMail()));
         }
         return ResponseEntity.status(400).body("Some error has occurred");
     }
 
     @GetMapping("/me")
-        public ResponseEntity<OutputUserDTO> getMe(HttpServletRequest request) {
+    public ResponseEntity<OutputUserDTO> getMe(HttpServletRequest request) {
         final String authHeader = request.getHeader(AUTHORIZATION);
         return ResponseEntity.ok(service.getMyInfo(authHeader));
     }

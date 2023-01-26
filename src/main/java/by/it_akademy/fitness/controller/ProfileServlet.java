@@ -27,15 +27,15 @@ public class ProfileServlet {
     @PostMapping
     protected ResponseEntity<String> post(@RequestBody InputProfileDTO idto, HttpServletRequest request) {
         final String authHeader = request.getHeader(AUTHORIZATION);
-        Profile created = this.service.create(idto,authHeader);
-        return new ResponseEntity<>(CREATED,HttpStatus.CREATED);
+        Profile created = this.service.create(idto, authHeader);
+        return new ResponseEntity<>(CREATED, HttpStatus.CREATED);
     }
+
     @GetMapping("/{uuid_profile}")
-    protected ResponseEntity<OutputProfileDTO> getById (@PathVariable(name = "uuid_profile") UUID id){
+    protected ResponseEntity<OutputProfileDTO> getById(@PathVariable(name = "uuid_profile") UUID id) {
         return ResponseEntity.ok(service.readById(id));
     }
 
 
-    
 }
 

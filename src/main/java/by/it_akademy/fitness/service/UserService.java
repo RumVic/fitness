@@ -10,7 +10,6 @@ import by.it_akademy.fitness.security.filter.JwtUtil;
 import by.it_akademy.fitness.service.api.IAuditService;
 import by.it_akademy.fitness.service.api.IUserService;
 import by.it_akademy.fitness.storage.api.IUserStorage;
-import by.it_akademy.fitness.storage.entity.Product;
 import by.it_akademy.fitness.storage.entity.User;
 import by.it_akademy.fitness.util.enams.EStatus;
 import by.it_akademy.fitness.util.enams.EntityType;
@@ -76,7 +75,7 @@ public class UserService implements IUserService, UserDetailsService {
     @Override
     @Transactional
     public UserDetails createNewUser(InputUserDTO dto) {
-        return userStorage.save(UserBuilder
+        User user = userStorage.save(UserBuilder
                 .create()
                 .setId(UUID.randomUUID())
                 .setDtCrate(Clock.systemUTC().millis())
@@ -87,6 +86,10 @@ public class UserService implements IUserService, UserDetailsService {
                 .setRole("ROLE_USER")
                 .setStatus(EStatus.ACTIVE)
                 .build());
+
+        auditService.create(user, EntityType.USER, CREATED, user.getId().toString());
+
+        return user;
     }
 
     @Override

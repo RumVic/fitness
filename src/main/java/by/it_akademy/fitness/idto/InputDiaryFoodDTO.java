@@ -3,6 +3,8 @@ package by.it_akademy.fitness.idto;
 import by.it_akademy.fitness.storage.entity.Dish;
 import by.it_akademy.fitness.storage.entity.Product;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
 public class InputDiaryFoodDTO {

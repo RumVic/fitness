@@ -62,6 +62,8 @@ public class DishService implements IDishService {
     @Transactional
     public Dish create(InputDishDTO idto, String header) {
 
+        validateDish(idto);
+
         String login = userService.extractCurrentToken(header);
 
         List<InputComDishDTO> list = idto.getComDishDTO();
@@ -107,6 +109,7 @@ public class DishService implements IDishService {
     @Transactional
     public Dish update(UUID id, Long dtUpdate, InputDishDTO idto,String header) throws LockException {
 
+        validateDish(idto);
         String login = userService.extractCurrentToken(header);
 
         String mail = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -141,6 +144,18 @@ public class DishService implements IDishService {
         auditService.create(user, EntityType.DISH, UPDATED, dishUpdate.getId().toString());
 
         return dishUpdate;
+    }
+
+    void validateDish(InputDishDTO inputDishDTO){
+        List <InputComDishDTO> dtoList = inputDishDTO.getComDishDTO();
+        for (InputComDishDTO dto: dtoList) {
+            if (dto.getDish()==null && dto.getProduct()==null){
+                throw new IllegalStateException("You need to pass something");
+            }
+            if (dto.getWeight()<0 || dto.getWeight()==0){
+                throw new IllegalArgumentException("Weight no can have this value");
+            }
+        }
     }
 
     @Override

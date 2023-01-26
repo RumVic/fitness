@@ -15,7 +15,7 @@ import java.util.List;
 @Component
 public class DishMapper {
 
-    public OutPage<OutputDishDTO> map(Page<Dish> dishes){
+    public OutPage<OutputDishDTO> map(Page<Dish> dishes) {
 
         OutPage<OutputDishDTO> outPage = new OutPage<>();
 
@@ -37,7 +37,7 @@ public class DishMapper {
         return outPage;
     }
 
-    public OutputDishDTO builderDish(Dish dish){
+    public OutputDishDTO builderDish(Dish dish) {
         OutputDishDTO dto = new OutputDishDTO();
         dto.setId(dish.getId());
         dto.setDtCreate(dish.getDtCreate());
@@ -48,21 +48,21 @@ public class DishMapper {
         List<CompositionDish> comDish = dish.getCompositionDishList();
         dto.setCompositionDishes(builderOutComDishList(comDish));
 
-        return dto ;
+        return dto;
     }
 
-    public List<OutputComDishDTO> builderOutComDishList(List<CompositionDish> comDish){
+    public List<OutputComDishDTO> builderOutComDishList(List<CompositionDish> comDish) {
 
         List<OutputComDishDTO> listComDish = new ArrayList<>();
 
-        for (CompositionDish comDishD : comDish){
+        for (CompositionDish comDishD : comDish) {
             OutputComDishDTO outDto = builderOutComDish(comDishD);
             listComDish.add(outDto);
         }
         return listComDish;
     }
 
-    public OutputComDishDTO builderOutComDish(CompositionDish comDish){
+    public OutputComDishDTO builderOutComDish(CompositionDish comDish) {
         OutputComDishDTO dto = new OutputComDishDTO();
         dto.setWeight(comDish.getWeight());
         ProductMapper productMapper = new ProductMapper();

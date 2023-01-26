@@ -21,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.time.Clock;
 import java.util.UUID;
 
@@ -87,7 +88,7 @@ public class ProfileService implements IProfileService {
 
     @Override
     public Profile read(UUID id) {
-        return null;
+        return storage.findById(id).orElseThrow();
     }
 
     @Override

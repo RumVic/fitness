@@ -22,7 +22,7 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
         //response.sendError(HttpServletResponse.SC_FORBIDDEN, accessDeniedException.getMessage());
 
         OutputResponseError re = new OutputResponseError(HttpStatus.FORBIDDEN.toString(),
-                "You need to pass url properly ");
+                "Your role is not according requested operation");
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         OutputStream responseStream = response.getOutputStream();

@@ -13,7 +13,7 @@ import java.util.List;
 public class DiaryFoodMapper {
 
 
-    public OutPage<OutputDiaryFoodDTO> map (Page<DiaryFood> page){
+    public OutPage<OutputDiaryFoodDTO> map(Page<DiaryFood> page) {
 
         OutPage<OutputDiaryFoodDTO> outDto = new OutPage<>();
 
@@ -27,7 +27,7 @@ public class DiaryFoodMapper {
 
         List<OutputDiaryFoodDTO> listDiary = new ArrayList<>();
 
-        for (DiaryFood diary: page.getContent()) {
+        for (DiaryFood diary : page.getContent()) {
             OutputDiaryFoodDTO dto = new OutputDiaryFoodDTO();
             dto.setId(diary.getId());
             dto.setDtCreate(diary.getDtCreate());
@@ -35,17 +35,17 @@ public class DiaryFoodMapper {
             dto.setDtSupply(diary.getDtSupply());
             dto.setProfile(diary.getProfile());
 
-            if(diary.getDish() != null) {
-            DishMapper dishMapper = new DishMapper();
-            dto.setDish(dishMapper.builderDish(diary.getDish()));
-            dto.setWeightDish(diary.getWeightDish());
-            }else dto.setDish(null);
+            if (diary.getDish() != null) {
+                DishMapper dishMapper = new DishMapper();
+                dto.setDish(dishMapper.builderDish(diary.getDish()));
+                dto.setWeightDish(diary.getWeightDish());
+            } else dto.setDish(null);
 
-            if (diary.getProduct() !=null){
-            ProductMapper productMapper = new ProductMapper();
-            dto.setProduct(productMapper.fromEntityToOutput(diary.getProduct()));
-            dto.setWeightProduct(diary.getWeightProduct());
-            }else  dto.setProduct(null);
+            if (diary.getProduct() != null) {
+                ProductMapper productMapper = new ProductMapper();
+                dto.setProduct(productMapper.fromEntityToOutput(diary.getProduct()));
+                dto.setWeightProduct(diary.getWeightProduct());
+            } else dto.setProduct(null);
 
             listDiary.add(dto);
         }

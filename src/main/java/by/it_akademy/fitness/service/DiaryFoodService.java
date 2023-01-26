@@ -31,6 +31,8 @@ public class DiaryFoodService implements IDiaryFoodService {
     private final String CREATED = "Line in food journal was created";
     private final String LOCK = "You can't create the line ";
 
+    private final Long STARTAPP = 1674752530161L;
+
     @Autowired
     private final IUserService userService;
     @Autowired
@@ -50,6 +52,7 @@ public class DiaryFoodService implements IDiaryFoodService {
     @Transactional
     public DiaryFood createWithParam(InputDiaryFoodDTO dto, String header, UUID uuid) throws LockException {
 
+        validateDiary(dto);
         UUID uid = userService.extractCurrentUUID(header);
         String mail = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.loadCurrentUserByLogin(mail);
@@ -57,7 +60,7 @@ public class DiaryFoodService implements IDiaryFoodService {
         Dish readedDish = serviceDish.read(dto.getDish().getId());
 
         if (!user.getId().equals(profile.getUser().getId())) {
-                throw new LockException(LOCK);
+            throw new LockException(LOCK);
         }
 
         DiaryFood diaryFood = storage.save(DiaryFoodBuilder
@@ -84,7 +87,6 @@ public class DiaryFoodService implements IDiaryFoodService {
     }
 
 
-
     @Override
     public DiaryFood read(UUID id) {
         return storage.findById(id).orElseThrow();
@@ -92,7 +94,7 @@ public class DiaryFoodService implements IDiaryFoodService {
 
     @Override
     public OutPage<OutputDiaryFoodDTO> get(Pageable pageable, UUID id) {
-        Page<DiaryFood> page = storage.findAllByProfile(pageable,id);
+        Page<DiaryFood> page = storage.findAllByProfile(pageable, id);
         return diaryFoodMapper.map(page);
     }
 
@@ -108,16 +110,29 @@ public class DiaryFoodService implements IDiaryFoodService {
 
     @Override
     @Transactional
-    public DiaryFood update(UUID id, Long dtUpdate, InputDiaryFoodDTO item,String header)throws LockException {
+    public DiaryFood update(UUID id, Long dtUpdate, InputDiaryFoodDTO item, String header) throws LockException {
         return null;
     }
 
     @Override
-    public void delete(DiaryFood diaryFood) {}
+    public void delete(DiaryFood diaryFood) {
+    }
 
     @Override
     @Transactional
-    public DiaryFood create(InputDiaryFoodDTO dto,String header) {
+    public DiaryFood create(InputDiaryFoodDTO dto, String header) {
         return null;
+    }
+
+    void validateDiary(InputDiaryFoodDTO dto) {
+        if (dto.getDish() == null && dto.getProduct() == null) {
+            throw new IllegalStateException("You need to pass Product or Dish");
+        }
+        if (dto.getWeightProduct() == 0 && dto.getWeightDish() == 0) {
+            throw new IllegalStateException("You need to pass weight of food");
+        }
+        if (dto.getDtSupply() < STARTAPP) {
+            throw new IllegalStateException("State valid value of meal time");
+        }
     }
 }

@@ -48,27 +48,18 @@ public class ProductServlet {
     protected ResponseEntity<OutPage> getList(
             @RequestParam int page,
             @RequestParam int size) {
-
         Pageable pageable = PageRequest.of(page, size);
-
         OutPage<OutputProductDTO> products = this.service.get(pageable);
-
-        return  new ResponseEntity<>(products,HttpStatus.OK);
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @PutMapping("/{uuid}/dt_update/{dt_update}")
     protected ResponseEntity<String> doPut(@PathVariable(name = "uuid") UUID id,
-                                            @PathVariable(name = "dt_update") Long dt_update,
-                                            @RequestBody @Valid InputProductDTO idto,
-                                            HttpServletRequest request) throws LockException {
+                                           @PathVariable(name = "dt_update") Long dt_update,
+                                           @RequestBody @Valid InputProductDTO idto,
+                                           HttpServletRequest request) throws LockException {
         final String authHeader = request.getHeader(AUTHORIZATION);
         service.update(id, dt_update, idto, authHeader);
         return ResponseEntity.ok(UPDATED);
     }
-
-    //TODO NOT DEMANDED
-   /* @GetMapping("/id")
-    protected ResponseEntity<Product> getById(@RequestParam(name = "id") UUID id) {
-        return ResponseEntity.ok(service.read(id));
-    }*/
 }

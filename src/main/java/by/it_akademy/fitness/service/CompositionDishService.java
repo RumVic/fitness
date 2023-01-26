@@ -32,12 +32,6 @@ public class CompositionDishService implements ICompositionDishService {
     private final IProductService service;
 
 
-   /* public CompositionDishService(ICompositionDishStorage storage,
-                                  IProductService service) {
-        this.storage = storage;
-        this.service = service;
-    }*/
-
     @Override
     @Transactional
     public List<CompositionDish> create(List<InputComDishDTO> list, UUID idDish) {
@@ -63,7 +57,7 @@ public class CompositionDishService implements ICompositionDishService {
     }
 
     @Override
-    public CompositionDish create(InputComDishDTO dto,String header) {
+    public CompositionDish create(InputComDishDTO dto, String header) {
         return null;
     }
 
@@ -107,7 +101,7 @@ public class CompositionDishService implements ICompositionDishService {
     }
 
     @Override
-    public CompositionDish update(UUID id, Long dtUpdate, InputComDishDTO item, String header)throws LockException {
+    public CompositionDish update(UUID id, Long dtUpdate, InputComDishDTO item, String header) throws LockException {
         return null;
     }
 
@@ -115,8 +109,8 @@ public class CompositionDishService implements ICompositionDishService {
     @Override
     @Transactional
     public void delete(List<CompositionDish> compositionDish) {
-        for (CompositionDish beingDeleted: compositionDish) {
-                storage.deleteById(beingDeleted.getId());
+        for (CompositionDish beingDeleted : compositionDish) {
+            storage.deleteById(beingDeleted.getId());
         }
     }
 

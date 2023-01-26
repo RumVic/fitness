@@ -21,10 +21,6 @@ import java.io.OutputStream;
 @Component("JwtAuthenticationEntryPoint")
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-    /*@Autowired
-    @Qualifier("handlerExceptionResolver")
-    private HandlerExceptionResolver resolver;*/
-
     @Override
     public void commence(HttpServletRequest request,
                          HttpServletResponse response,

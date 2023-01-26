@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public class UserMapper {
 
-    public OutputUserDTO onceMap(User user){
+    public OutputUserDTO onceMap(User user) {
 
         OutputUserDTO dto = new OutputUserDTO();
         dto.setId(user.getId());
@@ -25,7 +25,7 @@ public class UserMapper {
         return dto;
     }
 
-    public OutPage<OutputUserDTO> map(Page<User> userPage){
+    public OutPage<OutputUserDTO> map(Page<User> userPage) {
 
         OutPage<OutputUserDTO> dto = new OutPage();
 

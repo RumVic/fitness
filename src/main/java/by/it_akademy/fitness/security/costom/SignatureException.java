@@ -10,7 +10,6 @@ public class SignatureException extends java.security.SignatureException {
         super(msg);
         this.httpStatus = httpStatus;
     }
-
     public SignatureException(String msg) {
         super(msg);
     }

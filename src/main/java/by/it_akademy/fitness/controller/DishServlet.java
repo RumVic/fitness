@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.net.http.HttpRequest;
 import java.util.List;
 import java.util.UUID;
@@ -37,7 +38,7 @@ public class DishServlet {
 
 
     @PostMapping
-    protected ResponseEntity<String> post(@RequestBody InputDishDTO idto , HttpServletRequest request) {
+    protected ResponseEntity<String> post(@RequestBody @Valid InputDishDTO idto , HttpServletRequest request) {
         final String authHeader = request.getHeader(AUTHORIZATION);
         Dish created = this.service.create(idto,authHeader);
         return new ResponseEntity<>(CREATED, HttpStatus.CREATED);
@@ -50,10 +51,11 @@ public class DishServlet {
         return new ResponseEntity<>(dish,HttpStatus.OK);
     }
 
-    @PutMapping
-    protected ResponseEntity<String> doPut(@RequestParam UUID id,
-                                         @RequestParam(name = "dt_update") Long dt_update,
-                                         @RequestBody InputDishDTO idto,
+
+    @PutMapping("/{uuid}/dt_update/{dt_update}")
+    protected ResponseEntity<String> doPut(@PathVariable(name = "uuid") UUID id,
+                                           @PathVariable(name = "dt_update") Long dt_update,
+                                           @RequestBody @Valid InputDishDTO idto,
                                          HttpServletRequest request) throws LockException {
         final String authHeader = request.getHeader(AUTHORIZATION);
         service.update(id, dt_update, idto,authHeader);

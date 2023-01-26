@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @Component
-public class ProductMapper  {
+public class ProductMapper {
 
     public OutPage<OutputProductDTO> map(Page<Product> productOutPage) {
 
