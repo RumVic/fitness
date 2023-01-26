@@ -166,7 +166,7 @@ public class ProductService implements IProductService {
             throw new IllegalStateException("You didn't pass the value of Calories");
         }
         if (idto.getWeight()<0 || idto.getWeight()==0){
-            throw new IllegalStateException("You didn't pass the value of Calories");
+            throw new IllegalStateException("You didn't pass the value of Weight");
         }
     }
 }

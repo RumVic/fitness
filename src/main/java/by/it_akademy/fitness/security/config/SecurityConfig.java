@@ -1,11 +1,9 @@
 package by.it_akademy.fitness.security.config;
 
+import by.it_akademy.fitness.security.costom.JwtAccessDeniedHandler;
+import by.it_akademy.fitness.security.costom.JwtAuthenticationEntryPoint;
 import by.it_akademy.fitness.storage.api.IUserStorage;
 import by.it_akademy.fitness.security.filter.JwtAuthFilter;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureException;
-import io.jsonwebtoken.UnsupportedJwtException;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,8 +22,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
-import javax.servlet.http.HttpServletResponse;
-
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
@@ -35,19 +31,25 @@ public class SecurityConfig {
     private final IUserStorage userStorage;
 
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception  {
+    private final JwtAuthenticationEntryPoint authEntryPoint;
 
+    //private final JwtAuthenticationEntryPoint jwtEntryPoint;
+
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/**/me/**").hasAnyAuthority("ROLE_USER")
                 .antMatchers("/**/registration/**").permitAll()
-                .antMatchers(HttpMethod.PUT,"/**/users/**").hasAnyAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.PUT, "/**/users/**").hasAnyAuthority("ROLE_USER")
                 .antMatchers("/**/login/**").permitAll()
                 .antMatchers("/**/users/**").hasAnyAuthority("ROLE_ADMIN")
-                .antMatchers(HttpMethod.GET,"/**/product/**").permitAll()
-                .antMatchers("/**/recipe/**").hasAnyAuthority("ROLE_ADMIN","ROLE_USER")
+                .antMatchers(HttpMethod.GET, "/**/product/**").permitAll()
+                .antMatchers("/**/recipe/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                 .antMatchers("/**/profile/**").hasAnyAuthority("ROLE_USER")
                 .antMatchers("/**/audit/**").hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest()
@@ -61,9 +63,22 @@ public class SecurityConfig {
                 .and()
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+
+                .exceptionHandling()
+                .authenticationEntryPoint(authEntryPoint)
+                .and()
+                /*.exceptionHandling()
+                .authenticationEntryPoint(jwtEntryPoint)
+                .and()*/
+                .exceptionHandling()
+                .accessDeniedHandler(jwtAccessDeniedHandler);
+
+
+        //.addFilterBefore(new JwtRequestFilter(authenticationManager(), userDetailsService, new JWTHelper(), handlerExceptionResolver), UsernamePasswordAuthenticationFilter.class);
                 /*.exceptionHandling().authenticationEntryPoint((request, response, authException) ->
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
-                        authException.getMessage()))*/;
+                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+                        authException.getMessage()))*/
+        ;
         //there we want to add filter before another filter(jwtAuthFilter before
         //there we told Spring , hey go ahead and use this filter before authentication the User
         //because (in jwtAuthFilter we are checking the JWT and if everything is fine what we do - we
@@ -93,6 +108,7 @@ public class SecurityConfig {
         //return NoOpPasswordEncoder.getInstance();
         return new BCryptPasswordEncoder();
     }
+
 
     @Bean
     public UserDetailsService userDetailsService() {

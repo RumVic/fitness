@@ -1,6 +1,7 @@
 package by.it_akademy.fitness.security.filter;
 
 import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+@Slf4j
 @Component
 public class JwtUtil {
 
@@ -43,15 +45,15 @@ public class JwtUtil {
             return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
 
         } catch (SignatureException ex) {
-            //logger.error("Invalid JWT signature - {}", ex.getMessage());
+            log.error("Invalid JWT signature - {}", ex.getMessage());
         } catch (MalformedJwtException ex) {
-            //logger.error("Invalid JWT token - {}", ex.getMessage());
+            log.error("Invalid JWT token - {}", ex.getMessage());
         } catch (ExpiredJwtException ex) {
-            //logger.error("Expired JWT token - {}", ex.getMessage());
+            log.error("Expired JWT token - {}", ex.getMessage());
         } catch (UnsupportedJwtException ex) {
-            //logger.error("Unsupported JWT token - {}", ex.getMessage());
+            log.error("Unsupported JWT token - {}", ex.getMessage());
         } catch (IllegalArgumentException ex) {
-            //logger.error("JWT claims string is empty - {}", ex.getMessage());
+            log.error("JWT claims string is empty - {}", ex.getMessage());
         }
 
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
@@ -82,26 +84,5 @@ public class JwtUtil {
     public Boolean validateToken(String token, UserDetails userDetails) { //compare/valodate JWT data with the current user
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-    }
-
-    public boolean preValidateToken(String token) throws
-                                                    SignatureException,
-                                                    MalformedJwtException,
-                                                    ExpiredJwtException,UnsupportedJwtException,IllegalArgumentException {
-        try {
-            Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
-            return true;
-        } catch (SignatureException ex) {
-            //logger.error("Invalid JWT signature - {}", ex.getMessage());
-        } catch (MalformedJwtException ex) {
-            //logger.error("Invalid JWT token - {}", ex.getMessage());
-        } catch (ExpiredJwtException ex) {
-            //logger.error("Expired JWT token - {}", ex.getMessage());
-        } catch (UnsupportedJwtException ex) {
-            //logger.error("Unsupported JWT token - {}", ex.getMessage());
-        } catch (IllegalArgumentException ex) {
-            //logger.error("JWT claims string is empty - {}", ex.getMessage());
-        }
-        return false;
     }
 }
