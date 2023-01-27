@@ -3,9 +3,11 @@ package by.it_akademy.fitness.service;
 import by.it_akademy.fitness.builder.UserBuilder;
 import by.it_akademy.fitness.idto.InputUserDTO;
 import by.it_akademy.fitness.mail.MailSender;
+import by.it_akademy.fitness.service.api.IAuditService;
 import by.it_akademy.fitness.storage.api.IUserStorage;
 import by.it_akademy.fitness.storage.entity.User;
 import by.it_akademy.fitness.util.enams.EStatus;
+import by.it_akademy.fitness.util.enams.EntityType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,11 +24,16 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MailService implements  UserDetailsService {
 
+    private final String ADDED_IN_DB = "The User was successfully added";
+
+    private final String ACTIVATED = "The User was successfully activated";
+
     private final IUserStorage storage;
 
     @Autowired
     private MailSender mailSender;
 
+    private IAuditService auditService;
 
     private final BCryptPasswordEncoder passwordEncoder;
 
@@ -70,6 +77,9 @@ public class MailService implements  UserDetailsService {
 
             mailSender.send(user.getMail(), "ActivationCode", message);
         }
+
+        auditService.create(savedUser, EntityType.USER,ADDED_IN_DB,createdUser.getId().toString());
+
         return savedUser;
     }
 
@@ -80,6 +90,9 @@ public class MailService implements  UserDetailsService {
         if (user == null) {
             throw new IOException("We are apologize , try to registration again");
         } user.setActivationCode(null);
+          user.setStatus(EStatus.ACTIVE);
+
+          auditService.create(user,EntityType.USER,ACTIVATED,user.getId().toString());
 
         return storage.save(user);
     }
