@@ -3,12 +3,15 @@ package by.it_akademy.fitness.controller;
 import by.it_akademy.fitness.idto.InputUserDTO;
 import by.it_akademy.fitness.odto.OutputUserDTO;
 import by.it_akademy.fitness.security.filter.JwtUtil;
+import by.it_akademy.fitness.service.MailService;
 import by.it_akademy.fitness.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +23,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RequestMapping("api/v1/users")
 @RequiredArgsConstructor
 public class UserServlet {
+    private final String CREATED = "The new User was created and waiting activation , please check your Email";
     @Autowired
     private final AuthenticationManager authenticationManager;
     @Autowired
@@ -27,11 +31,13 @@ public class UserServlet {
     @Autowired
     private final JwtUtil jwtUtil;
 
+    @Autowired
+    private final MailService mailService;
 
     @PostMapping("/registration")
-    public ResponseEntity<String> registration(@RequestBody InputUserDTO inputUserDTO) {
-        UserDetails created = this.service.createNewUser(inputUserDTO);
-        return ResponseEntity.ok(jwtUtil.generateToken(created, inputUserDTO.getMail()));
+    public ResponseEntity<String> mailRegistration(@RequestBody InputUserDTO inputUserDTO) {
+        mailService.addUser(inputUserDTO);
+        return new ResponseEntity<>(CREATED, HttpStatus.OK);
     }
 
     @PostMapping("/login")

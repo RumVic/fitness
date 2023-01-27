@@ -26,6 +26,8 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String login;
 
+    private String activationCode;//new
+
     private String password;
 
     private String role;
@@ -41,6 +43,7 @@ public class User implements UserDetails {
                 Long dtUpdate,
                 String username,
                 String login,
+                String activationCode,
                 String password,
                 String role,
                 EStatus status) {
@@ -49,6 +52,7 @@ public class User implements UserDetails {
         this.dtUpdate = dtUpdate;
         this.username = username;
         this.login = login;
+        this.activationCode = activationCode;
         this.password = password;
         this.role = role;
         this.status = status;
@@ -143,5 +147,14 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
+    }
+
 
 }

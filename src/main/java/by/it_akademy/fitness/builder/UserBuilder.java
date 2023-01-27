@@ -23,6 +23,8 @@ public class UserBuilder {
 
     private EStatus status;
 
+    private String activationCode;
+
     private UserBuilder() {
     }
     
@@ -69,7 +71,12 @@ public class UserBuilder {
         this.status = status;
         return this;
     }
+
+    public UserBuilder setActivationCode(String  activationCode) {
+        this.activationCode = activationCode;
+        return this;
+    }
     public User build() {
-        return  new User(id,dtCrate,dtUpdate, username,login,password,role,status);
+        return  new User(id,dtCrate,dtUpdate, username,login,activationCode,password,role,status);
     }
 }

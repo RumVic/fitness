@@ -9,4 +9,7 @@ public interface IUserStorage extends JpaRepository<User, UUID> {
     User findByLogin(String login);
 
     Page<User> findAll(Pageable pageable);
+
+    User findByActivationCode(String code);
+
 }
