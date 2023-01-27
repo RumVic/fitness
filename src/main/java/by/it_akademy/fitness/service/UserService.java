@@ -12,7 +12,6 @@ import by.it_akademy.fitness.service.api.IAuditService;
 import by.it_akademy.fitness.service.api.IUserService;
 import by.it_akademy.fitness.storage.api.IUserStorage;
 import by.it_akademy.fitness.storage.entity.User;
-import by.it_akademy.fitness.util.enams.EStatus;
 import by.it_akademy.fitness.util.enams.EntityType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -146,8 +145,8 @@ public class UserService implements IUserService, UserDetailsService {
                 .setUsername(item.getNick())
                 .setLogin(item.getMail())
                 .setPassword(passwordEncoder.encode(item.getPassword()))
-                .setRole("ROLE_USER")
-                .setStatus(ACTIVE)
+                .setRole(item.getRole())
+                .setStatus(item.getStatus())
                 .build());
 
         auditService.create(user, EntityType.USER, UPDATED, updateUser.getId().toString());

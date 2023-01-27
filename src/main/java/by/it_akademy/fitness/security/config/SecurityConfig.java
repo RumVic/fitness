@@ -33,8 +33,6 @@ public class SecurityConfig {
 
     private final JwtAuthenticationEntryPoint authEntryPoint;
 
-    //private final JwtAuthenticationEntryPoint jwtEntryPoint;
-
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
 

@@ -11,6 +11,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
 
+import static by.it_akademy.fitness.util.enams.EStatus.ACTIVE;
+
 @Entity
 @Data
 @Table(name ="user_fitness")
@@ -145,7 +147,9 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
+        if (status.equals(ACTIVE)){
         return true;
+        }return false;
     }
 
     public String getActivationCode() {
