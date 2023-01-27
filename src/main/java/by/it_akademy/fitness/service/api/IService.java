@@ -14,7 +14,7 @@ public interface IService<ENTITY, IDTO, ODTO> {
 
     OutPage get(Pageable pageable);
 
-    ENTITY update(UUID id, Long dtUpdate, IDTO item,String header) throws LockException;
+    ENTITY update(UUID id, Long dtUpdate, IDTO item, String header) throws LockException;
 
     void delete(ENTITY entity);
 

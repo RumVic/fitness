@@ -1,5 +1,7 @@
 package by.it_akademy.fitness.service.api;
 
+import by.it_akademy.fitness.exception.LockException;
+import by.it_akademy.fitness.idto.InputUserByAdmin;
 import by.it_akademy.fitness.idto.InputUserDTO;
 import by.it_akademy.fitness.odto.OutputUserDTO;
 import by.it_akademy.fitness.storage.entity.User;
@@ -9,7 +11,7 @@ import java.util.UUID;
 
 public interface IUserService extends IService<User, InputUserDTO, OutputUserDTO> {
 
-    UserDetails createNewUser(InputUserDTO dto);
+    UserDetails createNewUser(InputUserByAdmin dto);
 
     UserDetails loadUserByLogin(String login);
 
@@ -25,5 +27,9 @@ public interface IUserService extends IService<User, InputUserDTO, OutputUserDTO
 
     OutputUserDTO readInput(UUID id);
 
+    User update(UUID id,
+                Long dtUpdate,
+                InputUserByAdmin item,
+                String header) throws LockException;
 
 }

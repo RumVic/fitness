@@ -1,6 +1,7 @@
 package by.it_akademy.fitness.service;
 
 import by.it_akademy.fitness.exception.LockException;
+import by.it_akademy.fitness.idto.InputUserByAdmin;
 import by.it_akademy.fitness.idto.InputUserDTO;
 import by.it_akademy.fitness.builder.UserBuilder;
 import by.it_akademy.fitness.mappers.UserMapper;
@@ -28,6 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.OptimisticLockException;
 import java.time.Clock;
 import java.util.UUID;
+
+import static by.it_akademy.fitness.util.enams.EStatus.*;
 
 @Slf4j
 @Service
@@ -74,7 +77,8 @@ public class UserService implements IUserService, UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails createNewUser(InputUserDTO dto) {
+    public UserDetails createNewUser(InputUserByAdmin dto) {
+        validate(dto);
         User user = userStorage.save(UserBuilder
                 .create()
                 .setId(UUID.randomUUID())
@@ -82,19 +86,14 @@ public class UserService implements IUserService, UserDetailsService {
                 .setDtUpdate(Clock.systemUTC().millis())
                 .setUsername(dto.getNick())
                 .setLogin(dto.getMail())
-                .setPassword(passwordEncoder.encode(dto.getPassword()))
-                .setRole("ROLE_USER")
-                .setStatus(EStatus.ACTIVE)
+                .setPassword(dto.getPassword())
+                .setRole(dto.getRole())
+                .setStatus(dto.getStatus())
                 .build());
 
         auditService.create(user, EntityType.USER, CREATED, user.getId().toString());
 
         return user;
-    }
-
-    @Override
-    public User create(InputUserDTO dto, String header) {
-        return null;
     }
 
     @Override
@@ -121,14 +120,14 @@ public class UserService implements IUserService, UserDetailsService {
     @Transactional
     public User update(UUID id,
                        Long dtUpdate,
-                       InputUserDTO item,
+                       InputUserByAdmin item,
                        String header) throws LockException {
 
-        String login = extractCurrentToken(header);
+        validate(item);
 
+        String login = extractCurrentToken(header);
         String mail = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = loadCurrentUserByLogin(mail);
-
         User readedUser = read(id);
 
         if (!readedUser.getUsername().equals(user.getLogin())) {
@@ -148,7 +147,7 @@ public class UserService implements IUserService, UserDetailsService {
                 .setLogin(item.getMail())
                 .setPassword(passwordEncoder.encode(item.getPassword()))
                 .setRole("ROLE_USER")
-                .setStatus(EStatus.ACTIVE)
+                .setStatus(ACTIVE)
                 .build());
 
         auditService.create(user, EntityType.USER, UPDATED, updateUser.getId().toString());
@@ -156,14 +155,13 @@ public class UserService implements IUserService, UserDetailsService {
         return updateUser;
     }
 
-    @Override
-    public void delete(User user) {
 
-    }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+    public void validate(InputUserByAdmin dto){
+        if(!dto.getRole().equals("ROLE_USER") || !dto.getRole().equals("ROLE_ADMIN")){
+            throw new IllegalStateException("You need pass role properly");}
+        if(!dto.getStatus().equals(ACTIVE) || dto.getStatus().equals(WAITING_ACTIVATION) || dto.getStatus().equals(DEACTIVATED)){
+            throw new IllegalStateException("You need pass Status properly");}
     }
 
     @Override
@@ -203,5 +201,23 @@ public class UserService implements IUserService, UserDetailsService {
     public User loadCurrentUserByLogin(String login) {
         User crntUser = userStorage.findByLogin(login);
         return crntUser;
+    }
+    @Override
+    public User update(UUID id,
+                       Long dtUpdate,
+                       InputUserDTO item,
+                       String header) throws LockException {
+        return null;
+    }
+    @Override
+    public void delete(User user) {
+    }
+    @Override
+    public User create(InputUserDTO dto, String header) {
+        return null;
+    }
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return null;
     }
 }

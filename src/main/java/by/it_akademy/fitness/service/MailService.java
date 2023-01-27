@@ -33,6 +33,7 @@ public class MailService implements  UserDetailsService {
     @Autowired
     private MailSender mailSender;
 
+    @Autowired
     private IAuditService auditService;
 
     private final BCryptPasswordEncoder passwordEncoder;
@@ -65,6 +66,7 @@ public class MailService implements  UserDetailsService {
             throw new IllegalArgumentException("The user with the same login already exist");
         } User savedUser = storage.save(createdUser);
 
+        auditService.create(createdUser, EntityType.USER,ADDED_IN_DB,createdUser.getId().toString());
 
         if (user.getMail() != null) {
 
@@ -77,8 +79,6 @@ public class MailService implements  UserDetailsService {
 
             mailSender.send(user.getMail(), "ActivationCode", message);
         }
-
-        auditService.create(savedUser, EntityType.USER,ADDED_IN_DB,createdUser.getId().toString());
 
         return savedUser;
     }
