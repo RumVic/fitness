@@ -2,14 +2,16 @@ package by.it_akademy.fitness.idto;
 
 import by.it_akademy.fitness.util.enams.EStatus;
 
-import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 
 public class InputUserByAdmin {
 
-    @Email(regexp = ".+[@].+[\\.].+")
-    private String mail;
+    @NotBlank
+    @Pattern(regexp = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$",
+            message = "Email invalid") private String mail;
     @NotNull
     private String nick;
     @NotNull

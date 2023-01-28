@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,10 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RequiredArgsConstructor
 public class AdminServlet {
 
+    private final String CREATED = " USER with admin role created new USER";
+
+    private final String UPDATED = " USER with admin role updated USER";
+
     @Autowired
     private final UserService service;
     @Autowired
@@ -36,7 +41,7 @@ public class AdminServlet {
     @PostMapping("/users")
     public ResponseEntity<String> registrationByAdmin(@RequestBody @Valid InputUserByAdmin inputUserDTO) {
         UserDetails created = this.service.createNewUser(inputUserDTO);
-        return ResponseEntity.ok(jwtUtil.generateToken(created, inputUserDTO.getMail()));
+        return new  ResponseEntity<>(CREATED, HttpStatus.OK);
     }
 
     @GetMapping("/users")
@@ -53,12 +58,12 @@ public class AdminServlet {
     }
 
     @PutMapping("/users/{uuid}/dt_update/{dt_update}")
-    public ResponseEntity<User> updateUser(@RequestBody InputUserByAdmin idto,
+    public ResponseEntity<String> updateUser(@RequestBody @Valid InputUserByAdmin idto,
                                            HttpServletRequest request,
                                            @PathVariable(name = "uuid") UUID id,
                                            @PathVariable(name = "dt_update") Long dtUpdate) throws LockException {
         final String authHeader = request.getHeader(AUTHORIZATION);
         User updateUser = service.update(id, dtUpdate, idto, authHeader);
-        return ResponseEntity.ok(updateUser);
+        return new  ResponseEntity<>(UPDATED,HttpStatus.OK);
     }
 }

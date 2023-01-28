@@ -42,9 +42,11 @@ public class UserService implements IUserService, UserDetailsService {
 
     private final String UPDATED = "The user was updated";
 
-    private final String EDITED = "Value user's line was successfully updated";
+    private final String EDITED = "Value user's line was  updated somebody else";
 
     private final String LOCK = "Editing forbidden";
+
+    private final String EXISTLOGIN = "The same Email already exist";
 
 
     private final BCryptPasswordEncoder passwordEncoder;
@@ -85,7 +87,7 @@ public class UserService implements IUserService, UserDetailsService {
                 .setDtUpdate(Clock.systemUTC().millis())
                 .setUsername(dto.getNick())
                 .setLogin(dto.getMail())
-                .setPassword(dto.getPassword())
+                .setPassword(passwordEncoder.encode(dto.getPassword()))
                 .setRole(dto.getRole())
                 .setStatus(dto.getStatus())
                 .build());
@@ -129,13 +131,19 @@ public class UserService implements IUserService, UserDetailsService {
         User user = loadCurrentUserByLogin(mail);
         User readedUser = read(id);
 
-        if (!readedUser.getUsername().equals(user.getLogin())) {
+        if(readedUser.getLogin().equals(item.getMail())){
+            throw new IllegalStateException(EXISTLOGIN);
+        }
+
+        if (!readedUser.getUsername().equals(user.getLogin()) && !user.getRole().equals("ROLE_ADMIN")) {
             throw new LockException(LOCK);
         }
 
         if (!readedUser.getDtUpdate().equals(dtUpdate)) {
             throw new OptimisticLockException(EDITED);
         }
+
+
 
         User updateUser = userStorage.save(UserBuilder
                 .create()
