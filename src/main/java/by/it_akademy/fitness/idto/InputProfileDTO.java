@@ -4,12 +4,13 @@ import by.it_akademy.fitness.serializator.DateDeSerializer;
 import by.it_akademy.fitness.util.enams.EGender;
 import by.it_akademy.fitness.util.enams.ELifestyle;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.springframework.beans.factory.annotation.Value;
 
+import javax.validation.constraints.Min;
 import java.time.LocalDate;
 import java.util.Date;
 
 public class InputProfileDTO {
-
     private double height;
 
     private double weight;

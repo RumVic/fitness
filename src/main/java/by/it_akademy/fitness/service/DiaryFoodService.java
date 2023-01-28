@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +41,9 @@ public class DiaryFoodService implements IDiaryFoodService {
     @Autowired
     private final IDishService serviceDish;
 
+    @Autowired
+    private final IProductService productService;
+
     private final IAuditService auditService;
 
     private final IProfileService profileService;
@@ -51,13 +55,28 @@ public class DiaryFoodService implements IDiaryFoodService {
     @Override
     @Transactional
     public DiaryFood createWithParam(InputDiaryFoodDTO dto, String header, UUID uuid) throws LockException {
-
         validateDiary(dto);
+
+        Dish readedDish = null;
+        Product readedProduct= null;
+
         UUID uid = userService.extractCurrentUUID(header);
         String mail = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.loadCurrentUserByLogin(mail);
         Profile profile = profileService.read(uuid);
-        Dish readedDish = serviceDish.read(dto.getDish().getId());
+
+        if(dto.getDish()==null){
+        Product readProduct = productService.read(dto.getProduct().getId());
+        readedProduct = readProduct;
+        }
+
+        if(dto.getProduct()==null){
+            Dish readDish = serviceDish.read(dto.getDish().getId());
+            readDish=readDish;
+        }
+
+        //Product readedProduct = productService.read(dto.getProduct().getId());
+
 
         if (!user.getId().equals(profile.getUser().getId())) {
             throw new LockException(LOCK);
@@ -71,7 +90,7 @@ public class DiaryFoodService implements IDiaryFoodService {
                 .setDtSupply(dto.getDtSupply())
                 .setDish(readedDish)
                 .setWeightDish(dto.getWeightDish())
-                .setProduct(dto.getProduct())
+                .setProduct(readedProduct)
                 .setWeightProduct(dto.getWeightProduct())
                 .setProfile(uuid)
                 .build());

@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
@@ -35,7 +36,7 @@ public class UserServlet {
     private final MailService mailService;
 
     @PostMapping("/registration")
-    public ResponseEntity<String> mailRegistration(@RequestBody InputUserDTO inputUserDTO) {
+    public ResponseEntity<String> mailRegistration(@RequestBody @Valid  InputUserDTO inputUserDTO) {
         mailService.addUser(inputUserDTO);
         return new ResponseEntity<>(CREATED, HttpStatus.OK);
     }

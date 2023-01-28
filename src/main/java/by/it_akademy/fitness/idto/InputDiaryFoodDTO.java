@@ -12,11 +12,11 @@ public class InputDiaryFoodDTO {
     private Long dtSupply;
 
     private Dish dish;
-
+    @Min(value = 0)
     private double weightDish;
 
     private Product product;
-
+    @Min(value = 0)
     private double weightProduct;
 
     private UUID profile;

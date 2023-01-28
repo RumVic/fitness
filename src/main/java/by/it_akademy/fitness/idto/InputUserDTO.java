@@ -1,12 +1,18 @@
 package by.it_akademy.fitness.idto;
 
-import org.springframework.lang.NonNull;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 public class InputUserDTO {
-    @NonNull
+    @NotBlank
+    @Pattern(regexp = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$",
+            message = "Email invalid")
     private String mail;
-    @NonNull
+    @NotBlank
     private String nick;
+
     private String password;
 
     public InputUserDTO() {
