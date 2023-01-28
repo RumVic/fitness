@@ -5,6 +5,7 @@ import by.it_akademy.fitness.util.enams.ELifestyle;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -16,11 +17,11 @@ public class Profile {
     private Long dtCreate;
     @Column(name = "dt_update")
     private Long dtUpdate;
-    @OneToOne
+    @OneToOne()
     private User user;
     private double height;
     private double weight;
-    private LocalDate birthday;
+    private Date birthday;
     @Enumerated(value = EnumType.STRING)
     private EGender gender;
     @Enumerated(value = EnumType.STRING)
@@ -36,7 +37,7 @@ public class Profile {
                    User user,
                    double height,
                    double weight,
-                   LocalDate birthday,
+                   Date birthday,
                    EGender gender,
                    ELifestyle lifestyle,
                    double targetWeight) {
@@ -100,11 +101,11 @@ public class Profile {
         this.weight = weight;
     }
 
-    public LocalDate getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(LocalDate birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 

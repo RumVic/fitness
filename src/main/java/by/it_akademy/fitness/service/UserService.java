@@ -157,9 +157,9 @@ public class UserService implements IUserService, UserDetailsService {
 
 
     public void validate(InputUserByAdmin dto){
-        if(!dto.getRole().equals("ROLE_USER") || !dto.getRole().equals("ROLE_ADMIN")){
+        if(!dto.getRole().equals("ROLE_USER") && !dto.getRole().equals("ROLE_ADMIN")){
             throw new IllegalStateException("You need pass role properly");}
-        if(!dto.getStatus().equals(ACTIVE) || dto.getStatus().equals(WAITING_ACTIVATION) || dto.getStatus().equals(DEACTIVATED)){
+        if(!dto.getStatus().equals(ACTIVE) && !dto.getStatus().equals(WAITING_ACTIVATION) && !dto.getStatus().equals(DEACTIVATED)){
             throw new IllegalStateException("You need pass Status properly");}
     }
 

@@ -147,7 +147,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        if (status.equals(ACTIVE)){
+        if(status.equals(ACTIVE)){
         return true;
         }return false;
     }

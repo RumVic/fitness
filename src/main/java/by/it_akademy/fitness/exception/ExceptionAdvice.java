@@ -90,7 +90,6 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response,HttpStatus.UNAUTHORIZED);
     }
 
-
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception e, @Nullable Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
         SingleErrorResponse response = new SingleErrorResponse();

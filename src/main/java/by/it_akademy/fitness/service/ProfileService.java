@@ -12,6 +12,8 @@ import by.it_akademy.fitness.service.api.IUserService;
 import by.it_akademy.fitness.storage.api.IProfileStorage;
 import by.it_akademy.fitness.storage.entity.Profile;
 import by.it_akademy.fitness.storage.entity.User;
+import by.it_akademy.fitness.util.enams.EGender;
+import by.it_akademy.fitness.util.enams.ELifestyle;
 import by.it_akademy.fitness.util.enams.EntityType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,11 +51,12 @@ public class ProfileService implements IProfileService {
     @Transactional
     public Profile create(InputProfileDTO dto, String header) {
 
+        validate(dto);
+
         User currentUserProfile = userService.extractCurrentUserProfile(header);
 
         String mail = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.loadCurrentUserByLogin(mail);
-
 
 
         Profile profile = storage.save(ProfileBuilder
@@ -98,10 +101,33 @@ public class ProfileService implements IProfileService {
 
     @Override
     @Transactional
-    public Profile update(UUID id, Long dtUpdate, InputProfileDTO item, String header)throws LockException {
-        return null;}
+    public Profile update(UUID id, Long dtUpdate, InputProfileDTO item, String header) throws LockException {
+        return null;
+    }
 
     @Override
     public void delete(Profile profile) {
+    }
+
+    public void validate(InputProfileDTO input) {
+        if (input.getWeight() < 30) {
+            throw new IllegalStateException("Min value of weight is 30 kg");
+        }
+        if (input.getHeight() < 100 || input.getHeight() > 300) {
+            throw new IllegalStateException("Check you Height");
+        }
+        if (input.getTarget() < 30 || input.getTarget() > 200) {
+            throw new IllegalStateException("Check your target");
+        }
+        if (!input.getSex().equals(EGender.MALE)
+                && !input.getSex().equals(EGender.FEMALE)
+                && !input.getSex().equals(EGender.THEY)) {
+            throw new IllegalStateException("Check your SEX");
+        }
+        if (!input.getActivity_type().equals(ELifestyle.ACTIVE)
+                && !input.getActivity_type().equals(ELifestyle.PASSIVE)
+                && !input.getActivity_type().equals(ELifestyle.COMBINE)) {
+            throw new IllegalStateException("Check type of lifestyle");
+        }
     }
 }

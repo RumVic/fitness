@@ -22,13 +22,15 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 public class ProfileServlet {
 
     private final String CREATED = "New Profile was successfully created ";
+
     private final IProfileService service;
 
     @PostMapping
     protected ResponseEntity<String> post(@RequestBody InputProfileDTO idto, HttpServletRequest request) {
         final String authHeader = request.getHeader(AUTHORIZATION);
-        Profile created = this.service.create(idto, authHeader);
-        return new ResponseEntity<>(CREATED, HttpStatus.CREATED);
+        Profile created = service.create(idto, authHeader);
+        String uid = created.getId().toString();
+        return new ResponseEntity<>(CREATED+"id : "+uid, HttpStatus.CREATED);
     }
 
     @GetMapping("/{uuid_profile}")

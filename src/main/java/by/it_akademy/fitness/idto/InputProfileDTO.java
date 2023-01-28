@@ -1,9 +1,12 @@
 package by.it_akademy.fitness.idto;
 
+import by.it_akademy.fitness.serializator.DateDeSerializer;
 import by.it_akademy.fitness.util.enams.EGender;
 import by.it_akademy.fitness.util.enams.ELifestyle;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 public class InputProfileDTO {
 
@@ -11,7 +14,8 @@ public class InputProfileDTO {
 
     private double weight;
 
-    private LocalDate dt_birthday;
+    @JsonDeserialize(using = DateDeSerializer.class)
+    private Date dt_birthday;
 
     private double target;
 
@@ -24,7 +28,7 @@ public class InputProfileDTO {
 
     public InputProfileDTO(double height,
                            double weight,
-                           LocalDate dt_birthday,
+                           Date dt_birthday,
                            double target,
                            ELifestyle activity_type,
                            EGender sex) {
@@ -44,7 +48,7 @@ public class InputProfileDTO {
         return weight;
     }
 
-    public LocalDate getBirthday() {
+    public Date getBirthday() {
         return dt_birthday;
     }
 

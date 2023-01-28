@@ -5,6 +5,7 @@ import by.it_akademy.fitness.util.enams.EGender;
 import by.it_akademy.fitness.util.enams.ELifestyle;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.UUID;
 
 public class OutputProfileDTO {
@@ -14,7 +15,7 @@ public class OutputProfileDTO {
     private Long dtUpdate;
     private double height;
     private double weight;
-    private LocalDate birthday;
+    private Date birthday;
     private EGender gender;
     private ELifestyle lifestyle;
     private double targetWeight;
@@ -28,7 +29,7 @@ public class OutputProfileDTO {
                             Long dtUpdate,
                             double height,
                             double weight,
-                            LocalDate birthday,
+                            Date birthday,
                             EGender gender,
                             ELifestyle lifestyle,
                             double targetWeight,
@@ -85,11 +86,11 @@ public class OutputProfileDTO {
         this.weight = weight;
     }
 
-    public LocalDate getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(LocalDate birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 

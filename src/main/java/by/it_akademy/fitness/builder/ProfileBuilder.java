@@ -5,6 +5,7 @@ import by.it_akademy.fitness.storage.entity.User;
 import by.it_akademy.fitness.util.enams.EGender;
 import by.it_akademy.fitness.util.enams.ELifestyle;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.UUID;
 
 public class ProfileBuilder {
@@ -21,7 +22,7 @@ public class ProfileBuilder {
 
     private double weight;
 
-    private LocalDate birthday;
+    private Date birthday;
 
     private EGender gender;
 
@@ -66,7 +67,7 @@ public class ProfileBuilder {
         return this;
     }
 
-    public ProfileBuilder setBirthday(LocalDate birthday) {
+    public ProfileBuilder setBirthday(Date birthday) {
         this.birthday = birthday;
         return this;
     }

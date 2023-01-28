@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.Clock;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class CompositionDishService implements ICompositionDishService {
         List<CompositionDish> compositionDishes = new ArrayList<>();
 
         for (InputComDishDTO inputComDishDTO : list) {
-            Product product = service.read(inputComDishDTO.getProduct().getId());
+           Product product = service.read(inputComDishDTO.getProduct().getId());
             UUID idCD = UUID.randomUUID();
             CompositionDish compositionDish = storage.save(CompositionDishBuilder
                     .create()
@@ -70,10 +71,6 @@ public class CompositionDishService implements ICompositionDishService {
     public OutPage get(Pageable pageable) {
         return null;
     }
-    /*@Override
-    public List<CompositionDish> get() {
-        return null;
-    }*/
 
     @Override
     public List<CompositionDish> update(List<InputComDishDTO> item, UUID idDish) {
@@ -117,7 +114,5 @@ public class CompositionDishService implements ICompositionDishService {
     @Override
     @Transactional
     public void delete(CompositionDish compositionDish) {
-
     }
-
 }
