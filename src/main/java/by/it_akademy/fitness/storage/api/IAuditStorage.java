@@ -1,7 +1,6 @@
 package by.it_akademy.fitness.storage.api;
 
 import by.it_akademy.fitness.storage.entity.Audit;
-import by.it_akademy.fitness.storage.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

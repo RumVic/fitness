@@ -1,12 +1,9 @@
 package by.it_akademy.fitness.security.filter;
 
-import by.it_akademy.fitness.exception.ExceptionAdvice;
 import by.it_akademy.fitness.security.costom.JwtAuthenticationException;
 import by.it_akademy.fitness.storage.api.IUserStorage;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
-import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

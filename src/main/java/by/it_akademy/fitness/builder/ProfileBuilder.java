@@ -4,7 +4,6 @@ import by.it_akademy.fitness.storage.entity.Profile;
 import by.it_akademy.fitness.storage.entity.User;
 import by.it_akademy.fitness.util.enams.EGender;
 import by.it_akademy.fitness.util.enams.ELifestyle;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 

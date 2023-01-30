@@ -5,7 +5,6 @@ import by.it_akademy.fitness.exception.LockException;
 import by.it_akademy.fitness.idto.InputDishDTO;
 import by.it_akademy.fitness.odto.OutPage;
 import by.it_akademy.fitness.odto.OutputDishDTO;
-import by.it_akademy.fitness.odto.OutputProductDTO;
 import by.it_akademy.fitness.service.api.IDishService;
 import by.it_akademy.fitness.storage.entity.Dish;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.net.http.HttpRequest;
-import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;

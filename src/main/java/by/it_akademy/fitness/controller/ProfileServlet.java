@@ -1,7 +1,6 @@
 package by.it_akademy.fitness.controller;
 
 import by.it_akademy.fitness.idto.InputProfileDTO;
-import by.it_akademy.fitness.odto.OutputProductDTO;
 import by.it_akademy.fitness.odto.OutputProfileDTO;
 import by.it_akademy.fitness.service.api.IProfileService;
 import by.it_akademy.fitness.storage.entity.Profile;

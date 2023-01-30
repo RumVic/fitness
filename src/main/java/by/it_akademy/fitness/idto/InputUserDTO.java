@@ -3,7 +3,6 @@ package by.it_akademy.fitness.idto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 public class InputUserDTO {
     @NotBlank

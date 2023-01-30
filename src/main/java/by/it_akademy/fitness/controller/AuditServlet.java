@@ -2,9 +2,7 @@ package by.it_akademy.fitness.controller;
 
 import by.it_akademy.fitness.odto.OutPage;
 import by.it_akademy.fitness.odto.OutputAuditDTO;
-import by.it_akademy.fitness.odto.OutputProductDTO;
 import by.it_akademy.fitness.service.api.IAuditService;
-import by.it_akademy.fitness.storage.entity.Audit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

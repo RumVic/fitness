@@ -4,7 +4,6 @@ import by.it_akademy.fitness.builder.AuditBuilder;
 import by.it_akademy.fitness.mappers.AuditMapper;
 import by.it_akademy.fitness.odto.OutPage;
 import by.it_akademy.fitness.odto.OutputAuditDTO;
-import by.it_akademy.fitness.odto.OutputProductDTO;
 import by.it_akademy.fitness.service.api.IAuditService;
 import by.it_akademy.fitness.storage.api.IAuditStorage;
 import by.it_akademy.fitness.storage.entity.Audit;

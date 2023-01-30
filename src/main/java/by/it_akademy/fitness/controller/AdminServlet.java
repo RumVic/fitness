@@ -2,7 +2,6 @@ package by.it_akademy.fitness.controller;
 
 import by.it_akademy.fitness.exception.LockException;
 import by.it_akademy.fitness.idto.InputUserByAdmin;
-import by.it_akademy.fitness.idto.InputUserDTO;
 import by.it_akademy.fitness.odto.OutPage;
 import by.it_akademy.fitness.odto.OutputUserDTO;
 import by.it_akademy.fitness.security.filter.JwtUtil;

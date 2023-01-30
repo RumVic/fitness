@@ -4,7 +4,6 @@ import by.it_akademy.fitness.exception.LockException;
 import by.it_akademy.fitness.idto.InputDiaryFoodDTO;
 import by.it_akademy.fitness.odto.OutPage;
 import by.it_akademy.fitness.odto.OutputDiaryFoodDTO;
-import by.it_akademy.fitness.odto.OutputProductDTO;
 import by.it_akademy.fitness.service.api.IDiaryFoodService;
 import by.it_akademy.fitness.storage.entity.DiaryFood;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
